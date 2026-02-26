@@ -1,0 +1,2340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電脳怪異譚 KAI-I//KILL — 討伐者ハンドブック</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #07080f;
+  --bg2:       #0c0d16;
+  --bg3:       #10111c;
+  --surface:   #161724;
+  --surface2:  #1c1d2e;
+  --border:    #252640;
+  --border2:   #2e2f50;
+  --gold:      #c4a35a;
+  --gold-dim:  #8a6f3a;
+  --purple:    #8b6daa;
+  --teal:      #4a8fa3;
+  --red:       #c45c5c;
+  --green:     #5a9e70;
+  --text:      #d4d0c8;
+  --text-dim:  #9e9a92;
+  --text-mute: #5e5c58;
+  --glow:      rgba(196,163,90,0.12);
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; font-size:15px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Serif JP', serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   AMBIENT / NOISE
+═══════════════════════════════════════════ */
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.015) 3px,rgba(0,0,0,0.015) 4px);
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR NAV
+═══════════════════════════════════════════ */
+.sidebar {
+  position:fixed; top:0; left:0; bottom:0;
+  width:220px; z-index:200;
+  background: rgba(7,8,15,0.97);
+  border-right: 1px solid var(--border);
+  display:flex; flex-direction:column;
+  overflow-y:auto;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  padding:1.8rem 1.5rem 1.2rem;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo-main {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1rem; font-weight:700;
+  color:#f0ece2; letter-spacing:0.08em;
+  line-height:1.3;
+}
+.sidebar-logo-sub {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.25em;
+  color:var(--text-mute); margin-top:0.3rem;
+  text-transform:uppercase;
+}
+.sidebar-logo-ver {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px; color:var(--gold);
+  margin-top:0.4rem; letter-spacing:0.15em;
+}
+
+.nav-section {
+  padding:0.8rem 0 0.4rem;
+}
+.nav-section-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px; letter-spacing:0.3em;
+  color:var(--text-mute); text-transform:uppercase;
+  padding:0.3rem 1.5rem 0.4rem;
+}
+.nav-link {
+  display:flex; align-items:center; gap:0.6rem;
+  padding:0.45rem 1.5rem;
+  font-size:0.82rem; color:var(--text-dim);
+  text-decoration:none; letter-spacing:0.03em;
+  transition: all 0.15s;
+  border-left:2px solid transparent;
+  cursor:pointer;
+}
+.nav-link:hover, .nav-link.active {
+  color:var(--gold); border-left-color:var(--gold);
+  background:rgba(196,163,90,0.05);
+}
+.nav-link-icon {
+  font-size:0.8rem; flex-shrink:0; width:16px;
+}
+.nav-divider { height:1px; background:var(--border); margin:0.5rem 1rem; }
+
+/* ═══════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════ */
+.main-content {
+  margin-left:220px;
+  min-height:100vh;
+  position:relative; z-index:1;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center; padding:4rem 3rem;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, rgba(139,109,170,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 70%, rgba(196,163,90,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 25%, rgba(74,143,163,0.06) 0%, transparent 60%);
+}
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(196,163,90,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,163,90,0.03) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center, black 20%, transparent 75%);
+}
+.hero-emblem {
+  width:120px; height:120px;
+  margin-bottom:3rem;
+  animation:float 8s ease-in-out infinite;
+  filter:drop-shadow(0 0 30px rgba(196,163,90,0.3));
+}
+@keyframes float {
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-10px) rotate(2deg)}
+}
+.hero-badge {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.4em;
+  color:var(--gold); border:1px solid rgba(196,163,90,0.3);
+  padding:0.35rem 1.2rem; margin-bottom:2rem;
+  text-transform:uppercase;
+  animation:fadeUp 1s ease both;
+}
+.hero-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:800; letter-spacing:0.15em;
+  color:#f4f0e8;
+  text-shadow:0 0 80px rgba(196,163,90,0.2);
+  animation:fadeUp 1.2s ease 0.15s both;
+  line-height:1.1;
+}
+.hero-title-en {
+  display:block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(0.65rem,1.5vw,0.8rem);
+  font-weight:300; letter-spacing:0.5em;
+  color:var(--text-mute); margin-top:0.6rem;
+}
+.hero-desc {
+  max-width:520px; margin:2.5rem auto 0;
+  font-size:0.88rem; color:var(--text-dim); line-height:2.2;
+  animation:fadeUp 1.5s ease 0.3s both;
+}
+.hero-scroll {
+  position:absolute; bottom:2.5rem; left:50%;
+  transform:translateX(-50%);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.35em; color:var(--text-mute);
+  animation:pulse 2.5s ease-in-out 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════════
+   PAGE SECTION
+═══════════════════════════════════════════ */
+.page-section {
+  padding:5rem 4rem 4rem;
+  border-bottom:1px solid var(--border);
+  max-width:1000px;
+}
+.page-section:last-child { border-bottom:none; }
+
+.section-eyebrow {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.35em;
+  color:var(--gold); text-transform:uppercase;
+  margin-bottom:0.8rem;
+}
+.section-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:clamp(1.5rem,3vw,2.1rem);
+  font-weight:700; color:#f0ece2;
+  letter-spacing:0.08em; line-height:1.2;
+  margin-bottom:2rem;
+}
+.section-title-sub {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px; color:var(--text-mute);
+  letter-spacing:0.2em; margin-left:0.8rem;
+}
+.section-lead {
+  font-size:0.92rem; color:var(--text-dim);
+  line-height:2.2; max-width:720px;
+  margin-bottom:2.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════════ */
+
+/* Alert / Info boxes */
+.box {
+  padding:1.2rem 1.6rem;
+  margin:2rem 0; font-size:0.85rem;
+  color:var(--text-dim); line-height:2;
+  border-radius:1px;
+}
+.box-danger {
+  background:rgba(196,92,92,0.07);
+  border:1px solid rgba(196,92,92,0.25);
+  border-left:3px solid var(--red);
+}
+.box-gold {
+  background:rgba(196,163,90,0.05);
+  border:1px solid rgba(196,163,90,0.2);
+  border-left:3px solid var(--gold);
+}
+.box-purple {
+  background:rgba(139,109,170,0.06);
+  border:1px solid rgba(139,109,170,0.2);
+  border-left:3px solid var(--purple);
+}
+.box-teal {
+  background:rgba(74,143,163,0.06);
+  border:1px solid rgba(74,143,163,0.2);
+  border-left:3px solid var(--teal);
+}
+.box strong { font-weight:600; }
+.box-danger strong { color:var(--red); }
+.box-gold strong { color:var(--gold); }
+.box-purple strong { color:var(--purple); }
+.box-teal strong { color:var(--teal); }
+
+/* Data table */
+.data-table {
+  width:100%; border-collapse:collapse;
+  margin:1.5rem 0; font-size:0.83rem;
+}
+.data-table th {
+  background:var(--surface);
+  color:var(--gold);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.2em;
+  font-weight:400; text-align:left;
+  padding:0.8rem 1.1rem;
+  border:1px solid var(--border);
+  text-transform:uppercase;
+}
+.data-table td {
+  padding:0.85rem 1.1rem;
+  border:1px solid var(--border);
+  color:var(--text-dim); vertical-align:top;
+  line-height:1.9;
+}
+.data-table tr:hover td { background:rgba(196,163,90,0.025); }
+.data-table td:first-child { color:var(--text); font-weight:500; }
+
+/* Grid cards */
+.card-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.5px; background:var(--border);
+  margin:2rem 0;
+}
+.card {
+  background:var(--surface);
+  padding:1.8rem;
+  transition:background 0.2s;
+}
+.card:hover { background:var(--surface2); }
+.card-eyebrow {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.25em;
+  color:var(--purple); text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.card-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.05rem; font-weight:600;
+  color:#e8e4dc; margin-bottom:0.7rem;
+  letter-spacing:0.04em;
+}
+.card-body {
+  font-size:0.82rem; color:var(--text-dim); line-height:1.95;
+}
+
+/* Two-column grid */
+.two-col {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.col-block {
+  background:var(--bg3); padding:2rem 2rem 1.8rem;
+}
+.col-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.3em;
+  color:var(--teal); text-transform:uppercase; margin-bottom:0.8rem;
+}
+.col-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.1rem; font-weight:600;
+  color:#e8e4dc; margin-bottom:0.8rem;
+}
+.col-body {
+  font-size:0.82rem; color:var(--text-dim); line-height:2;
+}
+
+/* Process flow */
+.process-row {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.process-step {
+  background:var(--bg3); padding:2rem 1.8rem;
+  position:relative;
+}
+.process-step::after {
+  content:'→'; position:absolute; right:-0.55rem; top:50%;
+  transform:translateY(-50%); color:var(--gold); font-size:1.1rem; z-index:1;
+}
+.process-step:last-child::after { display:none; }
+.process-n {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:2.5rem; font-weight:300;
+  color:rgba(196,163,90,0.2); line-height:1; margin-bottom:0.4rem;
+}
+.process-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1rem; font-weight:600; color:#e0dcd4; margin-bottom:0.5rem;
+}
+.process-body {
+  font-size:0.8rem; color:var(--text-dim); line-height:1.95;
+}
+.process-warn {
+  font-size:0.78rem; color:var(--red); margin-top:0.7rem; line-height:1.6;
+}
+
+/* Rank badges */
+.rank {
+  display:inline-block; font-family:'IBM Plex Mono',monospace;
+  font-size:11px; padding:0.1rem 0.55rem; border-radius:1px; letter-spacing:0.05em;
+}
+.r-toku { background:rgba(196,92,92,0.18); color:#e07070; border:1px solid rgba(196,92,92,0.4); }
+.r-1 { background:rgba(196,163,90,0.15); color:var(--gold); border:1px solid rgba(196,163,90,0.35); }
+.r-2 { background:rgba(139,109,170,0.15); color:#b090d0; border:1px solid rgba(139,109,170,0.35); }
+.r-3 { background:rgba(74,143,163,0.15); color:#78b8d0; border:1px solid rgba(74,143,163,0.35); }
+.r-4 { background:rgba(90,158,112,0.15); color:#85c095; border:1px solid rgba(90,158,112,0.35); }
+.r-5 { background:rgba(80,80,100,0.18); color:#8888a8; border:1px solid rgba(80,80,100,0.4); }
+
+/* Subheading */
+.subheading {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.05rem; font-weight:600; color:#e0dcd4;
+  letter-spacing:0.07em; margin:2.5rem 0 1rem;
+  padding-bottom:0.5rem;
+  border-bottom:1px solid var(--border);
+}
+
+/* Quote */
+.blockquote {
+  border-left:2px solid rgba(196,163,90,0.35);
+  padding:1.4rem 2rem; margin:2.5rem 0;
+  font-size:0.92rem; color:var(--text-dim); line-height:2.2;
+  font-style:italic; position:relative;
+}
+.blockquote::before {
+  content:'"';
+  position:absolute; top:-0.5rem; left:1.5rem;
+  font-size:3.5rem; color:rgba(196,163,90,0.12);
+  font-family:Georgia,serif; line-height:1;
+}
+
+/* Tag pills */
+.tag {
+  display:inline-block; font-size:10px;
+  padding:0.1rem 0.55rem; border-radius:2px; margin:0.15rem;
+  font-family:'IBM Plex Mono',monospace; letter-spacing:0.05em;
+}
+.tag-plus { background:rgba(74,143,163,0.15); color:var(--teal); border:1px solid rgba(74,143,163,0.3); }
+.tag-minus { background:rgba(196,92,92,0.1); color:#c07070; border:1px solid rgba(196,92,92,0.25); }
+.tag-neutral { background:rgba(196,163,90,0.1); color:var(--gold); border:1px solid rgba(196,163,90,0.25); }
+
+/* Equipment rows */
+.equip-list { display:grid; gap:1.5px; background:var(--border); margin:2rem 0; }
+.equip-item {
+  background:var(--bg3); padding:1.4rem 2rem;
+  display:grid; grid-template-columns:170px 1fr 80px 90px; gap:1.5rem; align-items:center;
+}
+.equip-name {
+  font-family:'Shippori Mincho B1',serif; font-weight:600;
+  color:#e0dcd4; font-size:0.95rem;
+}
+.equip-name-en {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.15em; color:var(--text-mute); display:block; margin-top:0.2rem;
+}
+.equip-desc { font-size:0.8rem; color:var(--text-dim); line-height:1.9; }
+.risk-dots { display:flex; gap:3px; align-items:center; justify-content:flex-end; }
+.dot { width:7px; height:7px; border-radius:50%; }
+.dot-on { background:var(--red); }
+.dot-off { background:var(--border2); }
+.ease-txt { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); text-align:right; }
+.ease-good { color:var(--teal); }
+.ease-bad { color:var(--red); }
+
+/* Faction cards */
+.faction-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.faction-card {
+  background:var(--bg3); padding:2rem 1.8rem;
+}
+.faction-icon { font-size:2rem; display:block; margin-bottom:1rem; }
+.faction-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.1rem; font-weight:700; color:#e8e4dc; margin-bottom:0.25rem;
+}
+.faction-name-en {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.22em; color:var(--text-mute); display:block; margin-bottom:1rem;
+}
+.faction-body { font-size:0.8rem; color:var(--text-dim); line-height:1.95; margin-bottom:0.8rem; }
+
+/* Character creation axes */
+.char-axes {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.char-axis {
+  background:var(--bg3); padding:1.8rem;
+}
+.axis-num {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px; color:var(--purple); letter-spacing:0.12em; margin-bottom:0.5rem;
+}
+.axis-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:0.95rem; font-weight:600; color:#e0dcd4; margin-bottom:0.8rem;
+}
+.axis-options { display:flex; flex-direction:column; gap:0.4rem; }
+.axis-opt {
+  font-size:0.78rem; color:var(--text-dim); line-height:1.7;
+  background:rgba(196,163,90,0.04); border:1px solid rgba(196,163,90,0.1);
+  padding:0.45rem 0.7rem; border-radius:1px;
+}
+.axis-opt small { display:block; font-size:0.7rem; color:var(--text-mute); margin-top:0.1rem; }
+
+/* Survival rules */
+.rule-list { list-style:none; display:grid; gap:1.5px; background:var(--border); margin:2rem 0; }
+.rule-item {
+  background:var(--bg3); padding:1.1rem 1.8rem;
+  display:flex; align-items:flex-start; gap:1rem;
+  font-size:0.88rem; color:var(--text-dim); line-height:1.9;
+}
+.rule-bullet {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  color:var(--red); flex-shrink:0; margin-top:0.3rem; letter-spacing:0.05em;
+}
+
+/* Timeline */
+.timeline { margin:2rem 0; position:relative; }
+.timeline::before {
+  content:''; position:absolute; left:90px; top:0; bottom:0;
+  width:1px; background:var(--border);
+}
+.tl-item {
+  display:flex; gap:2rem; padding:1.3rem 0; position:relative;
+}
+.tl-date {
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  color:var(--gold); width:80px; flex-shrink:0;
+  text-align:right; padding-top:0.15rem; letter-spacing:0.04em;
+}
+.tl-dot {
+  width:9px; height:9px; border-radius:50%;
+  background:var(--border2); border:1px solid var(--gold);
+  flex-shrink:0; margin-top:0.3rem; z-index:1;
+}
+.tl-dot.imp {
+  background:var(--gold); box-shadow:0 0 10px rgba(196,163,90,0.5);
+}
+.tl-content { flex:1; font-size:0.82rem; color:var(--text-dim); line-height:1.9; }
+.tl-title { font-weight:500; color:var(--text); margin-bottom:0.2rem; font-size:0.88rem; }
+
+/* Organization detail */
+.org-detail {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:1.5rem 0; overflow:hidden;
+}
+.org-header {
+  background:var(--surface); padding:1.4rem 2rem;
+  display:flex; align-items:baseline; gap:1.5rem;
+  border-bottom:1px solid var(--border);
+}
+.org-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.15rem; font-weight:700; color:#e8e4dc;
+}
+.org-tag {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.2em; color:var(--text-mute);
+}
+.org-body { padding:1.6rem 2rem; }
+.org-body p { font-size:0.82rem; color:var(--text-dim); line-height:2; margin-bottom:0.8rem; }
+.org-body p:last-child { margin-bottom:0; }
+
+/* Character profiles */
+.char-profile {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:2rem 0; overflow:hidden;
+}
+.char-header {
+  background:var(--surface); padding:1.5rem 2rem;
+  border-bottom:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:1rem; align-items:baseline;
+}
+.char-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.2rem; font-weight:700; color:#f0ece2;
+}
+.char-alias {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px; color:var(--gold); letter-spacing:0.1em;
+}
+.char-meta { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.3rem; width:100%; }
+.char-meta-item {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.15em; color:var(--text-mute);
+  background:var(--bg3); border:1px solid var(--border);
+  padding:0.2rem 0.6rem;
+}
+.char-body { padding:1.8rem 2rem; }
+.char-section { margin-bottom:1.2rem; }
+.char-section-title {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.25em; color:var(--teal);
+  text-transform:uppercase; margin-bottom:0.5rem;
+}
+.char-section-body {
+  font-size:0.82rem; color:var(--text-dim); line-height:2;
+}
+.char-drama {
+  background:var(--surface); padding:1rem 1.4rem; margin-top:0.5rem;
+}
+.char-drama-title {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.25em; color:var(--purple); text-transform:uppercase; margin-bottom:0.5rem;
+}
+.char-drama ul { list-style:none; }
+.char-drama li {
+  font-size:0.79rem; color:var(--text-dim); line-height:1.9;
+  padding-left:1.2em; position:relative;
+}
+.char-drama li::before {
+  content:'—'; position:absolute; left:0; color:var(--text-mute);
+}
+.char-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); margin:2rem 0; }
+
+/* Glossary */
+.gloss-entry {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:1rem 0; overflow:hidden;
+}
+.gloss-header {
+  background:var(--surface); padding:0.9rem 1.5rem;
+  display:flex; align-items:center; gap:0.8rem;
+  cursor:pointer; border-bottom:1px solid transparent;
+  transition:border-color 0.2s;
+}
+.gloss-header.open { border-bottom-color:var(--border); }
+.gloss-keyword {
+  font-family:'Shippori Mincho B1',serif; font-size:1rem;
+  font-weight:700; color:#e8e4dc; letter-spacing:0.04em;
+}
+.gloss-star {
+  font-size:11px; color:var(--gold); flex-shrink:0;
+}
+.gloss-q {
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  color:var(--red); flex-shrink:0; letter-spacing:0.1em;
+}
+.gloss-cat {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.2em; color:var(--text-mute); margin-left:auto;
+}
+.gloss-chevron {
+  font-size:10px; color:var(--text-mute); margin-left:0.5rem;
+  transition:transform 0.2s;
+}
+.gloss-header.open .gloss-chevron { transform:rotate(180deg); }
+.gloss-body {
+  display:none; padding:1.2rem 1.5rem;
+  font-size:0.82rem; color:var(--text-dim); line-height:2;
+}
+.gloss-body.open { display:block; }
+.gloss-related {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  color:var(--text-mute); margin-top:0.6rem; letter-spacing:0.05em;
+}
+
+/* Search bar */
+.search-bar {
+  position:relative; margin-bottom:2rem;
+}
+.search-input {
+  width:100%; padding:0.9rem 1.2rem 0.9rem 3rem;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:2px; color:var(--text); font-family:'Noto Serif JP',serif;
+  font-size:0.88rem; outline:none; transition:border-color 0.2s;
+}
+.search-input:focus { border-color:var(--gold); }
+.search-input::placeholder { color:var(--text-mute); }
+.search-icon {
+  position:absolute; left:1rem; top:50%; transform:translateY(-50%);
+  color:var(--text-mute); font-size:0.9rem;
+}
+
+/* Corp cards */
+.corp-card {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:2rem 0; overflow:hidden;
+}
+.corp-header {
+  padding:1.5rem 2rem; border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.corp-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.3rem; font-weight:700; color:#f0ece2; margin-bottom:0.3rem;
+}
+.corp-type {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.22em; color:var(--text-mute);
+}
+.corp-body { padding:1.8rem 2rem; }
+.corp-body p { font-size:0.82rem; color:var(--text-dim); line-height:2; margin-bottom:1rem; }
+.corp-section-title {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.25em; color:var(--gold); text-transform:uppercase;
+  margin:1.2rem 0 0.5rem;
+}
+.product-list { list-style:none; display:grid; gap:0.6rem; }
+.product-item {
+  font-size:0.8rem; color:var(--text-dim); line-height:1.8;
+  background:var(--surface); border:1px solid var(--border);
+  padding:0.7rem 1rem; border-left:2px solid var(--gold-dim);
+}
+.product-name { font-weight:500; color:var(--text); display:block; margin-bottom:0.2rem; }
+
+/* Tab system for groups */
+.tab-bar {
+  display:flex; gap:0; border-bottom:1px solid var(--border);
+  margin-bottom:2rem;
+}
+.tab-btn {
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  letter-spacing:0.15em; color:var(--text-mute);
+  padding:0.7rem 1.5rem; cursor:pointer; border:none;
+  background:none; border-bottom:2px solid transparent;
+  transition:all 0.2s; text-transform:uppercase;
+}
+.tab-btn:hover { color:var(--gold); }
+.tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Incident cards */
+.incident {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:1.2rem 0; padding:1.4rem 1.8rem;
+}
+.incident-header {
+  display:flex; align-items:center; gap:1rem; margin-bottom:0.6rem;
+}
+.incident-year {
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  color:var(--gold); flex-shrink:0; width:60px; letter-spacing:0.05em;
+}
+.incident-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:0.95rem; font-weight:600; color:#e0dcd4;
+}
+.incident-badge {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.2em; margin-left:auto; flex-shrink:0;
+}
+.incident-body { font-size:0.8rem; color:var(--text-dim); line-height:2; }
+
+/* Mobile toggle */
+.sidebar-toggle {
+  display:none; position:fixed; top:1rem; left:1rem; z-index:300;
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--text-dim); padding:0.5rem 0.8rem; cursor:pointer;
+  font-size:1rem;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar { transform:translateX(-100%); }
+  .sidebar.open { transform:translateX(0); }
+  .main-content { margin-left:0; }
+  .sidebar-toggle { display:block; }
+  .page-section { padding:3rem 1.5rem; }
+  .faction-grid { grid-template-columns:1fr; }
+  .two-col { grid-template-columns:1fr; }
+  .process-row { grid-template-columns:1fr; }
+  .process-step::after { display:none; }
+  .equip-item { grid-template-columns:1fr 1fr; }
+  .equip-name { grid-column:1/-1; }
+  .char-grid { grid-template-columns:1fr; }
+  .timeline::before { left:55px; }
+  .tl-date { width:44px; font-size:9px; }
+}
+
+/* Highlight */
+.hl { color:var(--gold); font-weight:500; }
+.hl2 { color:var(--purple); }
+.hl3 { color:var(--teal); }
+.hl-r { color:var(--red); }
+
+/* Section divider */
+.sec-divider {
+  display:flex; align-items:center; gap:1rem;
+  margin:3rem 0 1.5rem; color:var(--text-mute);
+}
+.sec-divider::before,.sec-divider::after {
+  content:''; flex:1; height:1px; background:var(--border);
+}
+.sec-divider span {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.25em; text-transform:uppercase; white-space:nowrap;
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-main"><span style="font-family:'Shippori Mincho B1',serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--text-mute);display:block;margin-bottom:0.2rem;">電脳怪異譚</span><span style="font-family:'IBM Plex Mono',monospace;font-size:1rem;letter-spacing:0.1em;color:#f0ece2;">KAI-I//KILL</span></div>
+    <div class="sidebar-logo-sub">討伐者ハンドブック</div>
+    <div class="sidebar-logo-ver">VER. 1.0 — PLAYER DOC</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">導入</div>
+    <a class="nav-link" href="#world"><span class="nav-link-icon">◉</span>世界概要</a>
+    <a class="nav-link" href="#history"><span class="nav-link-icon">◈</span>世界年表</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">怪異システム</div>
+    <a class="nav-link" href="#kaijin"><span class="nav-link-icon">⚠</span>怪異とは</a>
+    <a class="nav-link" href="#grades"><span class="nav-link-icon">▦</span>等級体系</a>
+    <a class="nav-link" href="#process"><span class="nav-link-icon">→</span>討伐プロセス</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">能力・装備</div>
+    <a class="nav-link" href="#ability"><span class="nav-link-icon">◆</span>能力体系</a>
+    <a class="nav-link" href="#equipment"><span class="nav-link-icon">⚙</span>装備分類</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">組織・人物</div>
+    <a class="nav-link" href="#factions"><span class="nav-link-icon">⛩</span>三種の討伐者</a>
+    <a class="nav-link" href="#haraebe"><span class="nav-link-icon">◎</span>祓部詳細</a>
+    <a class="nav-link" href="#mercenaries"><span class="nav-link-icon">⚔</span>傭兵詳細</a>
+    <a class="nav-link" href="#unaffiliated"><span class="nav-link-icon">◈</span>無所属詳細</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">産業・企業</div>
+    <a class="nav-link" href="#companies"><span class="nav-link-icon">▤</span>企業詳細</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">キャラクター作成</div>
+    <a class="nav-link" href="#character"><span class="nav-link-icon">✦</span>作成ガイド</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">参照資料</div>
+    <a class="nav-link" href="#glossary"><span class="nav-link-icon">≡</span>用語集</a>
+    <a class="nav-link" href="#incidents"><span class="nav-link-icon">◌</span>記録事件</a>
+    <a class="nav-link" href="#survival"><span class="nav-link-icon">▲</span>生存原則</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <svg class="hero-emblem" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="56" stroke="#c4a35a" stroke-width="0.7" stroke-dasharray="5 4" opacity="0.4"/>
+    <circle cx="60" cy="60" r="46" stroke="#c4a35a" stroke-width="0.5" opacity="0.25"/>
+    <polygon points="60,18 94,38 94,80 60,100 26,80 26,38" stroke="#c4a35a" stroke-width="0.9" fill="none" opacity="0.65"/>
+    <polygon points="60,32 80,43 80,77 60,88 40,77 40,43" stroke="#c4a35a" stroke-width="0.5" fill="none" opacity="0.3"/>
+    <line x1="60" y1="24" x2="60" y2="96" stroke="#c4a35a" stroke-width="0.4" opacity="0.3"/>
+    <line x1="24" y1="60" x2="96" y2="60" stroke="#c4a35a" stroke-width="0.4" opacity="0.3"/>
+    <line x1="33" y1="33" x2="87" y2="87" stroke="#c4a35a" stroke-width="0.3" opacity="0.2"/>
+    <line x1="87" y1="33" x2="33" y2="87" stroke="#c4a35a" stroke-width="0.3" opacity="0.2"/>
+    <circle cx="60" cy="60" r="9" fill="none" stroke="#c4a35a" stroke-width="1"/>
+    <circle cx="60" cy="60" r="3.5" fill="#c4a35a" opacity="0.9"/>
+    <circle cx="60" cy="18" r="2.5" fill="#c4a35a" opacity="0.5"/>
+    <circle cx="94" cy="38" r="2.5" fill="#c4a35a" opacity="0.5"/>
+    <circle cx="94" cy="80" r="2.5" fill="#c4a35a" opacity="0.5"/>
+    <circle cx="60" cy="100" r="2.5" fill="#c4a35a" opacity="0.5"/>
+    <circle cx="26" cy="80" r="2.5" fill="#c4a35a" opacity="0.5"/>
+    <circle cx="26" cy="38" r="2.5" fill="#c4a35a" opacity="0.5"/>
+    <text x="60" y="14" text-anchor="middle" font-family="serif" font-size="8" fill="#c4a35a" opacity="0.6" letter-spacing="2">祓</text>
+  </svg>
+
+  <div class="hero-badge">Player Handbook — Authorized Document</div>
+  <div style="font-family:'Shippori Mincho B1',serif;font-size:clamp(0.75rem,1.5vw,0.95rem);letter-spacing:0.35em;color:var(--text-mute);margin-bottom:0.5rem;animation:fadeUp 1s ease 0.05s both;">電脳怪異譚</div>
+  <h1 class="hero-title" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(2.5rem,8vw,5.8rem);letter-spacing:0.12em;color:#f4f0e8;text-shadow:0 0 60px rgba(196,163,90,0.25);">
+    KAI-I//KILL
+  </h1>
+  <div style="font-family:'Shippori Mincho B1',serif;font-size:clamp(0.85rem,1.8vw,1.05rem);letter-spacing:0.5em;color:var(--text-mute);margin-top:0.6rem;animation:fadeUp 1.4s ease 0.25s both;">カイイキル</div>
+  <div style="font-family:'Shippori Mincho B1',serif;font-size:clamp(0.8rem,1.5vw,0.95rem);color:var(--text-mute);letter-spacing:0.25em;margin-top:1rem;animation:fadeUp 1.3s ease 0.2s both;">討伐者ハンドブック</div>
+  <p class="hero-desc">
+    これはあなたが討伐者としてこの世界に踏み込む前に知っておくべき情報だ。<br>
+    ここに書かれていないことが、この世界にはまだある。
+  </p>
+  <div class="hero-scroll">▼ scroll to begin</div>
+</section>
+
+<!-- ══════════ 01 世界概要 ══════════ -->
+<section class="page-section" id="world">
+  <div class="section-eyebrow">01 — World Overview</div>
+  <h2 class="section-title">世界概要 <span class="section-title-sub">WORLD OVERVIEW</span></h2>
+
+  <p class="section-lead">
+    舞台は近未来の架空日本だ。地名も地図も現実とは異なるが、文化・言語・民俗学的背景は日本のそれを色濃く引き継いでいる。表層は<span class="hl">サイバーパンク的な高度情報社会</span>であり、魔法はガスや電気と同等のインフラとして社会に組み込まれている。
+  </p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-eyebrow">Surface</div>
+      <div class="card-title">高度情報社会</div>
+      <div class="card-body">魔法が資格制度と安全基準を持つインフラとして機能する近未来。SNSと都市伝説が怪異の燃料になる時代だ。</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Underside</div>
+      <div class="card-title">怪異の侵食</div>
+      <div class="card-body">噂や言説が質量を持ち、現実にバグとして侵食する怪異が日常的に発生している。一般市民には秘匿されている。</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Paradox</div>
+      <div class="card-title">見えるが信じられない</div>
+      <div class="card-body">怪異は一般人にも見える。干渉もできる。問題は「話しても誰も信じてくれない」ことだ。</div>
+    </div>
+  </div>
+
+  <div class="box box-danger">
+    <strong>秘匿と認知：</strong> 怪異の存在は秘匿されているが、見えないということとは別だ。知識・訓練・装備の差が討伐者と一般人を分ける。無知が人を殺す。
+  </div>
+
+  <div class="subheading">権力の三極構造</div>
+  <table class="data-table">
+    <thead><tr><th>極</th><th>構成</th><th>行動原理</th></tr></thead>
+    <tbody>
+      <tr><td>第一極</td><td>国家・蒼鉄機工（国家系企業）</td><td>秩序の維持。怪異の存在を秘匿することで秩序が成立する</td></tr>
+      <tr><td>第二極</td><td>独立系企業（雷禽重工等）・傭兵集団</td><td>利益。国家にも危険な勢力にも必要とされる立場を維持して生き残る</td></tr>
+      <tr><td>第三極</td><td>正体不明の組織</td><td>既存の権力構造の外側。怪異そのものを利用する勢力が存在するという情報がある</td></tr>
+    </tbody>
+  </table>
+  <div class="box box-gold">
+    <strong>無所属の立場：</strong> 三極のどこにも属さない。三極すべてから必要とされ、三極すべてから敵視される。
+  </div>
+
+  <div class="subheading">情報統制</div>
+  <p style="font-size:0.85rem;color:var(--text-dim);line-height:2;max-width:720px;">
+    公的機関は怪異による被害を魔法設備の事故・ガス漏れ・集団ヒステリーとして処理する。SNSの目撃情報は陰謀論扱いで埋もれるよう誘導される。まれに記憶に直接介入する手段が使われるという話もあるが詳細は不明だ。
+  </p>
+
+  <div class="blockquote">
+    「あなたの体験は本物だ」<br>
+    <span style="font-size:0.8rem;color:var(--text-mute);">— 謎の組織が怪異の被害者に語りかける言葉。最大限の注意が必要だ。</span>
+  </div>
+</section>
+
+<!-- ══════════ 02 世界年表 ══════════ -->
+<section class="page-section" id="history">
+  <div class="section-eyebrow">02 — World Timeline</div>
+  <h2 class="section-title">世界年表（抜粋） <span class="section-title-sub">TIMELINE</span></h2>
+
+  <div class="box box-gold">
+    <strong>注意：</strong> この年表に書かれていないことが、この世界にはまだある。年表に空白があるとすれば、そこに何かが隠れている可能性がある。
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">神代</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">怪異と神の区別が存在しない時代</div>恐れと信仰が渾然一体となっており、怪異と神は同じ言葉で呼ばれていた。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1300年代</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">古い都市伝説型怪異の確立</div>戦乱・疫病・飢饉が信念密度を高め、現在も循環型として繰り返し出現する怪異の原型がこの時代に生まれた。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1800年代</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">魔法の学術的実証</div>魔法がチートコードであるという基本原理が解明される。経験的知識と近代科学が接続された転換点。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1867</div>
+      <div class="tl-dot imp"></div>
+      <div class="tl-content"><div class="tl-title">★ 鵺ヶ原事変</div>近代初の大規模怪異事件。旧市街地一帯に特級相当の怪異が出現。封印処理が行われた。<strong style="color:var(--gold)">鵺ヶ原の地名は現在の地図に存在しない。</strong> 魔法安全基準制定のきっかけになった。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1931</div>
+      <div class="tl-dot imp"></div>
+      <div class="tl-content"><div class="tl-title">白鴉事件</div>地下工事中に封印されていた古い怪異の核が偶発的に破損。一級甲種相当の怪異が解放された。公式発表はガス管爆発事故。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1947</div>
+      <div class="tl-dot imp"></div>
+      <div class="tl-content"><div class="tl-title">終戦後怪異爆発期</div>戦争による大規模な死と恐怖・悲嘆が爆発的に拡散。各地で新旧の怪異が同時多発的に発生。三段階討伐プロセスの原型が生まれた。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1985</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">御霊崩し事件</div>地域の守り神として信仰されてきた神社の御神体が再開発による取り壊しを機に怪異化。神が怪異に転換した事例として語られる。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">1996</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">深夜廻り怪異の初出記録</div>インターネット由来の最初の新型怪異。現在も循環型として断続的に出現。信念密度は二級相当まで成長している。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2004</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">拡散型怪異事案</div>SNS発の怪異が初めて単一国家の対処能力を超える規模に成長。情報拡散速度と怪異成長速度の直結が初めて数値として記録された。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2013</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">霧島事案</div>傭兵集団が公的機関より先に大規模怪異を独自討伐。管轄争いが表面化。暫定規制フレームワークが策定されたが実効性は低い。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2023</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-title">素養持ち子供の連続失踪事件</div>素養検査直後の子供が相次いで失踪。謎の組織との関連が疑われているが証拠は不明だ。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2028</div>
+      <div class="tl-dot imp"></div>
+      <div class="tl-content"><div class="tl-title">第一次怪異兵器使用事案</div>謎の組織が都市部で怪異を意図的に放流したとされる事案。怪異を兵器として使う組織の存在が討伐者コミュニティに印象づけられた。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2034</div>
+      <div class="tl-dot imp"></div>
+      <div class="tl-content"><div class="tl-title">★ 白銀の廃線事件</div>廃線全体に特級丙種の定着型怪異が発生。公的機関・傭兵・無所属が初めて本格的に協力して封印処理。現在も維持中。<strong style="color:var(--gold)">この事件が現在の無所属コミュニティの核を作った。</strong></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">現在</div>
+      <div class="tl-dot imp"></div>
+      <div class="tl-content"><div class="tl-title">SNS時代の加速</div>拡散速度が信念密度の蓄積速度に直結するため、新しい怪異でも短期間で高密度に達するケースがある。謎の組織の活動が活発化しているという情報がある。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 怪異とは ══════════ -->
+<section class="page-section" id="kaijin">
+  <div class="section-eyebrow">03 — Kaijin System</div>
+  <h2 class="section-title">怪異について <span class="section-title-sub">KAIJIN</span></h2>
+
+  <p class="section-lead">
+    怪異とは、集合的な噂・言説・信念が臨界点を超えた時に現実へと侵食する存在だ。専門家はこれを<span class="hl">バグ</span>と呼ぶ。全ての怪異は<span class="hl">核</span>と<span class="hl">ルール</span>を持つ。
+  </p>
+
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">Core — 核</div>
+      <div class="col-title">核とは何か</div>
+      <div class="col-body">
+        怪異の存在の中心であり消滅条件の鍵だ。基本的には<strong style="color:var(--text)">物に宿る</strong>。特定の場所・道具・建造物・記録媒体などが核になる。稀に死体や生きた人間に宿る場合があり、対処の難度と倫理的複雑さが跳ね上がる。<br><br>
+        核を無効化・破壊することが怪異消滅の最短経路だが、どこに何が核なのかは調査と解明を経て初めて分かる。
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">Rule — ルール</div>
+      <div class="col-title">ルールとは何か</div>
+      <div class="col-body">
+        怪異が人間を害するための条件だ。<strong style="color:var(--red)">ルールを破れば破るほど怪異から逃げられなくなる。</strong><br><br>
+        ルールは怪異が人を殺す手順であると同時に、怪異が人を捕捉・追跡するトリガーでもある。無意識にルールを一度も破らなかった一般人が理由も分からず生還するケースがある。<br><br>
+        強い怪異ほどルールが複雑で厳密になる傾向がある。
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-purple">
+    <strong>怪異と神について：</strong> 討伐者の間ではこういう話がある。「恐れられているか信仰されているかの違いだけだ。」真偽は不明だが、神社の御神体が怪異化したという記録が残っていることは事実だ。神だから討伐できないという保護はこの世界に存在しない。
+  </div>
+
+  <div class="subheading">改造個体と別個体</div>
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">Modified — 改造個体</div>
+      <div class="col-title">ルール変質 50%未満</div>
+      <div class="col-body">
+        元の核とルールが主体として残っている。既存の知識がある程度通用するが、ある一点でルールが決定的に食い違う瞬間が来る。調査段階では「文献との齟齬・被害パターンの不一致・核の所在の混乱・目撃証言の分裂」という四つの違和感として現れる。
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">New Entity — 別個体</div>
+      <div class="col-title">ルール変質 50%以上</div>
+      <div class="col-body">
+        <strong style="color:var(--red)">元の知識はほぼ役に立たない。</strong> 完全に別の怪異として扱う。最も恐ろしいパターンは「改造個体と解明して討伐に挑んだ瞬間に別個体だと判明するケース」だ。怪異は健在で討伐者はルールを破り続けた状態で無防備になっている。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 等級体系 ══════════ -->
+<section class="page-section" id="grades">
+  <div class="section-eyebrow">04 — Classification</div>
+  <h2 class="section-title">等級体系 <span class="section-title-sub">GRADE SYSTEM</span></h2>
+
+  <p class="section-lead">怪異は<span class="hl">存在強度等級</span>と<span class="hl">脅威度種別</span>の二軸で表記される。二つの軸は独立しており、必ずしも一致しない。</p>
+
+  <div class="subheading">存在強度等級（特級〜五級）</div>
+  <table class="data-table">
+    <thead><tr><th>等級</th><th>基準</th><th>特徴</th></tr></thead>
+    <tbody>
+      <tr><td><span class="rank r-toku">特級</span></td><td>現状の手段では消滅が極めて困難</td><td>封印・管理が限界。鵺ヶ原事変の怪異が該当</td></tr>
+      <tr><td><span class="rank r-1">一級</span></td><td>信念密度が非常に高い強力な怪異</td><td>長い歴史を持つ。対処法が民俗学記録に存在する場合が多い</td></tr>
+      <tr><td><span class="rank r-2">二級</span></td><td>記録のある古い怪異の大半</td><td>訓練された討伐者であれば対処可能</td></tr>
+      <tr><td><span class="rank r-3">三級</span></td><td>拡散が進んだ新しい怪異など</td><td>SNS時代に急成長するケースがある</td></tr>
+      <tr><td><span class="rank r-4">四級</span></td><td>発生したばかりの新しい怪異</td><td>初見殺しが最大のリスク</td></tr>
+      <tr><td><span class="rank r-5">五級</span></td><td>魔法事故由来の微小怪異</td><td>自然消滅することが多い</td></tr>
+    </tbody>
+  </table>
+
+  <div class="subheading">脅威度種別（甲種〜丁種）</div>
+  <table class="data-table">
+    <thead><tr><th>種別</th><th>基準</th><th>対処の考え方</th></tr></thead>
+    <tbody>
+      <tr><td>甲種</td><td>無差別に人を害する。接触した全員が標的</td><td>即時対応が必要</td></tr>
+      <tr><td>乙種</td><td>ルールを破った者など条件付きで害する</td><td>ルール遵守で生存できる</td></tr>
+      <tr><td>丙種</td><td>刺激しなければ安全</td><td>放置が最善の場合がある</td></tr>
+      <tr><td>丁種</td><td>人を害さない。共存可能または信仰対象に近い</td><td>討伐より封印・共存の選択肢もある</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box-teal">
+    <strong>重要な注意：</strong> 強いが安全な怪異（一級丁種）、弱いが危険な怪異（五級甲種）が存在する。等級だけで危険度を判断するな。さらに影響範囲（広域型・局所型）と被害性質（物理型・精神型・複合型）が付記される。
+  </div>
+
+  <div class="subheading">永続性による分類</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-eyebrow">Type A</div>
+      <div class="card-title">一時型</div>
+      <div class="card-body">核が破壊されると消滅する標準的な怪異。ただし噂の中身が変質して似た性質の派生体が後日発生するケースがある。派生体は元の怪異と別個体として扱え。</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Type B</div>
+      <div class="card-title">循環型（都市伝説型）</div>
+      <div class="card-body">社会に深く根を張った怪異。核を破壊しても噂が生き続ける限り新たな核を形成して再出現する。討伐は根絶ではなく<span class="hl">制圧</span>だ。</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Type C — 破壊困難</div>
+      <div class="card-title">定着型（土地型）①</div>
+      <div class="card-body">核が土地と一体化しすぎており通常手段では無効化できない。大規模な魔法での破壊はさらに大きな怪異を生むジレンマがある。公的機関が封鎖して放置する理由がここにある。</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Type C — 一度限り</div>
+      <div class="card-title">定着型（土地型）②</div>
+      <div class="card-body">核の特定と破壊に成功すると噂の構造ごと崩壊して完全消滅する。達成した討伐者は伝説扱いされる。白銀の廃線事件はこのタイプへの対処事例として語り継がれている。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 討伐プロセス ══════════ -->
+<section class="page-section" id="process">
+  <div class="section-eyebrow">05 — Exorcism Process</div>
+  <h2 class="section-title">討伐プロセス <span class="section-title-sub">PROCESS</span></h2>
+
+  <p class="section-lead">
+    討伐は三段階のプロセスで構成される。<span class="hl-r">戦闘はあくまで最終段階</span>であり、その前の二段階が生死を分ける。
+  </p>
+
+  <div class="process-row">
+    <div class="process-step">
+      <div class="process-n">01</div>
+      <div class="process-title">調査プロセス</div>
+      <div class="process-body">怪異の存在を確認し正体と性質を特定する段階。<br><br>明らかにすること：この怪異は何者か、古い怪異か新しい怪異か、核はどこに宿っているか、被害のパターンと範囲はどうか。<br><br>手段：聞き込み・物的証拠・DB照会・民俗学文献・SNS追跡・直接観察。</div>
+      <div class="process-warn">⚠ 調査なしの討伐は自殺行為</div>
+    </div>
+    <div class="process-step">
+      <div class="process-n">02</div>
+      <div class="process-title">解明プロセス</div>
+      <div class="process-body">怪異のルールを特定し弱点につながる法則を見つける段階。解明プロセスそのものが命がけだ。<br><br>ルールを破れば逃げられなくなる。情報収集と生存のトレードオフが常に発生する。<br><br>改造個体か別個体かの判断がここで命運を分ける。</div>
+      <div class="process-warn">⚠ 解明なしの討伐は自殺行為</div>
+    </div>
+    <div class="process-step">
+      <div class="process-n">03</div>
+      <div class="process-title">討伐プロセス</div>
+      <div class="process-body">調査と解明で得た情報を元に怪異を無力化する段階。核を破壊または無効化することが基本だが、核の在処と無効化の方法は怪異によって異なる。<br><br>物理と霊的手段はどちらも基本的に有効だが怪異によって耐性がある。</div>
+      <div class="process-warn">⚠ 戦闘力だけで解決できる怪異は存在しない</div>
+    </div>
+  </div>
+
+  <div class="subheading">討伐における耐性と制約</div>
+  <table class="data-table">
+    <thead><tr><th>タイプ</th><th>有効な手段</th><th>無効な手段</th></tr></thead>
+    <tbody>
+      <tr><td>物理耐性型</td><td>霊的手段・魔法・魔導具</td><td>物理攻撃がほぼ通じない</td></tr>
+      <tr><td>霊的耐性型</td><td>物理・魔導具</td><td>魔法や霊的手段が通じない</td></tr>
+      <tr><td>ルール依存型</td><td>怪異のルールに則った手段のみ</td><td>解明なしでは全ての攻撃が無効になる</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════ 06 能力体系 ══════════ -->
+<section class="page-section" id="ability">
+  <div class="section-eyebrow">06 — Ability System</div>
+  <h2 class="section-title">能力体系 <span class="section-title-sub">ABILITIES</span></h2>
+
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">Type A — チートコード</div>
+      <div class="col-title">魔法（チートコード）</div>
+      <div class="col-body">
+        世界のソースコードに直接介入する技術。素養が必要であり訓練によって習得する。再現性が高い。<span class="hl">電気やガスと同等のインフラ</span>として位置づけられており資格制度と安全基準が存在する。<br><br>
+        大きな魔法を使えば使うほど大きな怪異が生まれる可能性が跳ね上がる。<strong style="color:var(--red)">魔法で怪異を倒すことと魔法で怪異を生むことは表裏一体だ。</strong>
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">Type B — アプリケーション</div>
+      <div class="col-title">異能（アプリケーション）</div>
+      <div class="col-body">
+        怪異と同じ発生原理の延長線上にある力で、強烈な体験・執着・信念が人間の内側で生み出す。直感的に扱えるが制御が難しい。素養の有無に関わらず発現する可能性がある。<br><br>
+        <strong style="color:var(--red)">使い続けると使用者が怪異に近づいていく（侵食）リスクがある。</strong> その先に何があるかは誰も正確には把握していない。
+      </div>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th>項目</th><th>魔法（チートコード）</th><th>異能（アプリケーション）</th></tr></thead>
+    <tbody>
+      <tr><td>原理</td><td>外部介入</td><td>内部発生</td></tr>
+      <tr><td>再現性</td><td>高い</td><td>低い</td></tr>
+      <tr><td>習得</td><td>訓練と素養</td><td>体験と執着</td></tr>
+      <tr><td>リスク</td><td>怪異を生む</td><td><span class="hl-r">使用者の変質（侵食）</span></td></tr>
+      <tr><td>社会的扱い</td><td>インフラ・資格制度あり</td><td>管理しきれていない</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box-purple">
+    <strong>侵食（Erosion）：</strong> 異能や特殊な装備（怪異核素材）を長期間使用することで使用者が怪異に近づいていく現象。どこまで進むと取り返しがつかなくなるのかは不明だ。侵食が進んだ討伐者が討伐対象になった事例があるという話が無所属の間に流れている。
+  </div>
+
+  <div class="subheading">魔導具</div>
+  <p style="font-size:0.85rem;color:var(--text-dim);line-height:2;max-width:700px;margin-bottom:1.2rem;">
+    魔力を体内から吸い出し特定の効果に変換する道具だ。素養のない人間でも使える。あらかじめ設定された効果しか出せないが安定している。製造には素養持ちの技術者が必要で高品質なものほど高価だ。
+  </p>
+  <div class="box box-danger">
+    <strong>怪異核素材の魔導具：</strong> 闇市場には怪異の核を素材として組み込んだ魔導具が存在するという情報がある。使用者に何らかの代償が生じるとされているが詳細は不明だ。侵食が進む可能性がある。関わることは推奨しない。
+  </div>
+
+  <div class="subheading">覚醒パターン</div>
+  <table class="data-table">
+    <thead><tr><th>パターン</th><th>概要</th><th>特徴・リスク</th></tr></thead>
+    <tbody>
+      <tr><td>先天覚醒型</td><td>生まれつき素養を持ち訓練で開花</td><td>祓部に多い。安定した能力基盤</td></tr>
+      <tr><td>ショック覚醒型</td><td>怪異に関わる強烈な体験が引き金</td><td>恨みが動機に直結しやすい。精神的ダメージを抱えやすい</td></tr>
+      <tr><td>実験覚醒型</td><td>何者かによる人体実験で強制覚醒</td><td>素養強度が高い代わりに代償が大きい。追われている可能性がある</td></tr>
+      <tr><td>接触覚醒型</td><td>怪異の核や特殊素材への長期接触で覚醒</td><td>侵食リスクが伴う。変質が進む可能性がある</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box-gold">
+    <strong>素養について：</strong> 素養の芽自体は人口の30〜40%に潜在しているが、実際に使えるレベルまで開花するかどうかは訓練・環境・きっかけに大きく左右される。素養持ちの子供を巡って国家・企業・正体不明の組織が激しく争奪している。
+  </div>
+</section>
+
+<!-- ══════════ 07 装備分類 ══════════ -->
+<section class="page-section" id="equipment">
+  <div class="section-eyebrow">07 — Equipment System</div>
+  <h2 class="section-title">装備分類 <span class="section-title-sub">EQUIPMENT</span></h2>
+
+  <p class="section-lead">
+    討伐者の装備は六種に分類される。全ての装備に魔導具を組み込むことが可能だが、規模に比例して<span class="hl-r">怪異発生リスク</span>が生まれる。
+  </p>
+
+  <div class="equip-list">
+    <div class="equip-item">
+      <div><div class="equip-name">武装型<span class="equip-name-en">WEAPON TYPE</span></div></div>
+      <div class="equip-desc">武器や盾など手に持って使用する武装の総称。最もシンプルで最も歴史が長い分類。剣・銃・槍のような物理武器から魔導具を組み込んだ魔法武器まで幅が広い。携行性が高く状況に応じた持ち替えが容易だ。<strong style="color:var(--text-dim)">素養の有無に関わらず使用できる。</strong></div>
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--text-mute);margin-bottom:4px;text-align:right;">RISK</div><div class="risk-dots"><div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div><div class="dot dot-off"></div></div></div>
+      <div class="ease-txt ease-good">扱い ◎</div>
+    </div>
+    <div class="equip-item">
+      <div><div class="equip-name">独立型<span class="equip-name-en">AUTONOMOUS TYPE</span></div></div>
+      <div class="equip-desc">自律ドローン型支援機やAI制御型タレットなど所有者の命令がなくとも行動する武装。偵察・索敵・援護・包囲を並行展開できる唯一の分類。怪異のルールを破った機体が怪異に捕捉される事故が報告されている。AIは魔法演算と電子演算を組み合わせた独自設計。</div>
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--text-mute);margin-bottom:4px;text-align:right;">RISK</div><div class="risk-dots"><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div></div></div>
+      <div class="ease-txt">扱い △</div>
+    </div>
+    <div class="equip-item">
+      <div><div class="equip-name">半装身型<span class="equip-name-en">SEMI-CLAD TYPE</span></div></div>
+      <div class="equip-desc">腕や足を覆うアーマーを兼任した武装。魔導具との統合が最も進んでいる分類で素養なしでも高い出力を得られる設計が多い。素養持ちが使用する場合は直接行使と魔導具出力のハイブリッド運用が可能。<strong style="color:var(--text-dim)">傭兵の二つ名持ちが個人専用にカスタムするケースが多い。</strong></div>
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--text-mute);margin-bottom:4px;text-align:right;">RISK</div><div class="risk-dots"><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div></div></div>
+      <div class="ease-txt">扱い ○</div>
+    </div>
+    <div class="equip-item">
+      <div><div class="equip-name">全装身型<span class="equip-name-en">FULL-CLAD TYPE</span></div></div>
+      <div class="equip-desc">全身を覆う戦闘用アーマー型武装。癖が強く扱える人間が少ない。機体と使用者の相性が最も重要な分類。同調できない機体を無理に使うと逆に能力を制限される。一般市民に目撃された場合に強烈な印象を残し<strong style="color:var(--red)">都市伝説化しやすい</strong>。自分が怪異の発生源になるリスクがある。</div>
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--text-mute);margin-bottom:4px;text-align:right;">RISK</div><div class="risk-dots"><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-off"></div></div></div>
+      <div class="ease-txt ease-bad">扱い ×</div>
+    </div>
+    <div class="equip-item">
+      <div><div class="equip-name">搭乗型<span class="equip-name-en">MANEUVERER TYPE</span></div></div>
+      <div class="equip-desc">主に搭乗して動かす大きな兵装の総称。バイク・モノサイクル型から特殊車両型まで幅が広い。機動力と積載能力が強みで戦闘用途に限らず輸送・偵察・拠点構築など多目的に使われる。狭い場所や建物内での使用が困難な点が弱点だ。</div>
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--text-mute);margin-bottom:4px;text-align:right;">RISK</div><div class="risk-dots"><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-off"></div><div class="dot dot-off"></div></div></div>
+      <div class="ease-txt">扱い ○</div>
+    </div>
+    <div class="equip-item">
+      <div><div class="equip-name">戦闘用搭乗型<span class="equip-name-en">COMBAT MANEUVERER</span></div></div>
+      <div class="equip-desc">ロボットや巨大兵装。三〜四級の怪異への対処を主目的とする。<strong style="color:var(--red)">戦闘後に周辺で小型怪異が発生することは現場では常識だ。</strong> 長期間使用した機体が怪異の干渉を受けて暴走した事案が報告されている。パイロットへの長期的な影響は不透明な部分が多い。</div>
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--text-mute);margin-bottom:4px;text-align:right;">RISK</div><div class="risk-dots"><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-on"></div><div class="dot dot-on"></div></div></div>
+      <div class="ease-txt ease-bad">扱い ××</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 08 三種の討伐者 ══════════ -->
+<section class="page-section" id="factions">
+  <div class="section-eyebrow">08 — Three Factions</div>
+  <h2 class="section-title">三種の討伐者 <span class="section-title-sub">FACTIONS</span></h2>
+
+  <div class="faction-grid">
+    <div class="faction-card">
+      <span class="faction-icon">⛩</span>
+      <div class="faction-name">公的機関（祓部）</div>
+      <div class="faction-name-en">HARAEBU — PUBLIC AGENCY</div>
+      <div class="faction-body">魔導省の内部組織として存在する国家機関の怪異対処部門。警察や自衛隊の入隊検査で素養を持つ人間が選別されて配属される。古い怪異に関する深い知識と専門的な訓練体系を持つ。</div>
+      <div>
+        <span class="tag tag-plus">DB閲覧権あり</span>
+        <span class="tag tag-plus">古い怪異に強い</span>
+        <span class="tag tag-plus">安定した装備</span>
+        <span class="tag tag-minus">行動制約あり</span>
+        <span class="tag tag-minus">人員不足</span>
+        <span class="tag tag-neutral">国家系装備</span>
+      </div>
+    </div>
+    <div class="faction-card">
+      <span class="faction-icon">⚔</span>
+      <div class="faction-name">傭兵集団</div>
+      <div class="faction-name-en">MERCENARY GROUPS</div>
+      <div class="faction-body">個人から集団まで様々な形を取る。大企業がバックについている討伐者集団。独立系企業の高性能魔導具やプロトタイプを運用する。二つ名を持つ個人特化型の専用装備使いが存在し伝説扱いされる。</div>
+      <div>
+        <span class="tag tag-plus">法的制約なし</span>
+        <span class="tag tag-plus">高性能装備</span>
+        <span class="tag tag-minus">企業依存</span>
+        <span class="tag tag-minus">収益不安定</span>
+        <span class="tag tag-neutral">独立系装備</span>
+      </div>
+    </div>
+    <div class="faction-card">
+      <span class="faction-icon">◈</span>
+      <div class="faction-name">無所属</div>
+      <div class="faction-name-en">UNAFFILIATED</div>
+      <div class="faction-body">国にも企業にも属さない個人または小集団。犯罪者扱いされることも多く法的な保護がない。曰く付きの特殊装備・違法改造品・出どころ不明の専用機を使う。互いの覚醒経緯を詮索しない不文律がある。</div>
+      <div>
+        <span class="tag tag-plus">完全な自由</span>
+        <span class="tag tag-minus">法的保護なし</span>
+        <span class="tag tag-minus">全勢力から警戒</span>
+        <span class="tag tag-neutral">特殊・改造装備</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 09 祓部詳細 ══════════ -->
+<section class="page-section" id="haraebe">
+  <div class="section-eyebrow">09 — Haraebu Details</div>
+  <h2 class="section-title">祓部（はらえべ）詳細 <span class="section-title-sub">PUBLIC AGENCY</span></h2>
+
+  <p class="section-lead">
+    公的な怪異対処組織。魔導省の内部組織として存在し、外部からは「魔導省の特殊部署」として認識されている。終戦後怪異爆発期（1947年）の対処が追いつかない状況の中で組織化された。
+  </p>
+
+  <div class="subheading">役職体系</div>
+  <table class="data-table">
+    <thead><tr><th>役職</th><th>読み</th><th>役割</th></tr></thead>
+    <tbody>
+      <tr><td>大祓主</td><td>おおはらえぬし</td><td>祓部全体の最高責任者。討伐か封印かの最終判断権限を持つ。現在の大祓主は魔導省上層部と恒常的に対立している</td></tr>
+      <tr><td>祓主</td><td>はらえぬし</td><td>各地方拠点の責任者。担当区域の怪異対処全般を統括。禁足地の封印管理を担う</td></tr>
+      <tr><td>禊士</td><td>みそぎし</td><td>実働部隊の中核。複数の祓士を束ねて現場指揮を担う。古い怪異への対処に特化した訓練を受けている</td></tr>
+      <tr><td>祓士</td><td>はらえし</td><td>実働部隊の主力。三段階討伐プロセスの全てを単独で実施できる水準が求められる</td></tr>
+      <tr><td>見習祓士</td><td>みならいはらえし</td><td>訓練中の候補生。素養検査で選別されてから正式な祓士になるまで最短でも三年の訓練期間がある</td></tr>
+      <tr><td>斎者</td><td>いもいびと</td><td>特別職。調査・解明・文書化に特化。民俗学者・古文書研究者との連絡役を兼ねる。知識体系の維持と更新を担う</td></tr>
+    </tbody>
+  </table>
+
+  <div class="subheading">部門構成</div>
+  <div class="org-detail">
+    <div class="org-header"><div class="org-name">第一部門：対処部</div><div class="org-tag">ACTIVE DIVISION</div></div>
+    <div class="org-body">
+      <p>怪異の調査・解明・討伐を担う実働部門。禊士が複数の祓士チームを束ねる形で運用。標準編成は禊士一名・祓士三〜五名。</p>
+      <p><strong style="color:var(--gold)">古怪班：</strong> 古い怪異専門のチーム。民俗学的知識と古来の手法に精通。御幣・塩・酒・榊のような古来の道具を実際の怪異対処に使用する。これらは単なる儀式用具ではなく古い怪異のルールに干渉するための有効な手段だ。</p>
+      <p><strong style="color:var(--gold)">新怪班：</strong> 新しい怪異専門のチーム。SNS・ネットロア・都市伝説の調査に特化。若い隊員が多く祓部の中で最も現代的な部署。古怪班との文化的摩擦が生じやすい。</p>
+      <p><strong style="color:var(--gold)">封印班：</strong> 禁足地の管理と封印処理に特化したチーム。白銀の廃線事件のような大型封印案件では対処部全体が動く。</p>
+    </div>
+  </div>
+  <div class="org-detail">
+    <div class="org-header"><div class="org-name">第二部門：調査部</div><div class="org-tag">INTELLIGENCE DIVISION</div></div>
+    <div class="org-body">
+      <p>情報収集・データベース管理・事後分析を担う部門。斎者の多くがここに所属する。<strong style="color:var(--text)">このデータベースへのアクセス権が祓部所属の討伐者の最大の強みだ。</strong></p>
+    </div>
+  </div>
+  <div class="org-detail">
+    <div class="org-header"><div class="org-name">第三部門：技術部</div><div class="org-tag">TECHNICAL DIVISION</div></div>
+    <div class="org-body">
+      <p>装備の整備・改修・開発を担う部門。蒼鉄機工との共同開発窓口でもある。技術士・術式士・機動兵装士の三種の専門職種を持つ。</p>
+      <p>技術部は祓部の中で最も「普通の職場」に近い雰囲気を持つ。神職的な文化が薄く実用主義が優先される。現場の無理な要求と安全基準の間で板挟みになることが多い。</p>
+    </div>
+  </div>
+
+  <div class="subheading">内部の対立構造</div>
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">方針対立</div>
+      <div class="col-title">討伐派 vs 封印派</div>
+      <div class="col-body">
+        <strong style="color:var(--text)">討伐派：</strong> 怪異は根絶すべき脅威であり討伐が原則。魔導省上層部・管理部・新怪班に多い。2015年の方針転換事件以降組織的に優勢。<br><br>
+        <strong style="color:var(--text)">封印派：</strong> 怪異の中には封じることが最善の場合があるという立場。古怪班・封印班・斎者に多い。現場レベルでの抵抗を続けている。
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">現在の状況</div>
+      <div class="col-title">人員不足と圧力</div>
+      <div class="col-body">
+        御神楽事変（現在から3年前）での甚大な損害以降、祓部は慢性的な人員不足に陥っている。怪異の発生件数は増加しており一人あたりの案件負荷が上昇し続けている。<br><br>
+        傭兵・無所属への依存度が上がっている。近年は情報管理の強化で部門間の情報共有も制限されている。
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-teal">
+    <strong>祓部キャラの強み：</strong> データベースへのアクセス権・古い怪異への深い知識・品質の安定した官製魔導具。<br>
+    <strong>制約：</strong> 武装・行動に法的・組織的な制限がかかる。方針対立が任務中に影響する場合がある。人員不足で休暇・回復の余裕がない。
+  </div>
+</section>
+
+<!-- ══════════ 10 傭兵詳細 ══════════ -->
+<section class="page-section" id="mercenaries">
+  <div class="section-eyebrow">10 — Mercenary Details</div>
+  <h2 class="section-title">傭兵詳細 <span class="section-title-sub">MERCENARIES</span></h2>
+
+  <p class="section-lead">
+    怪異の討伐を仕事にしている討伐者のうち、国家にも特定の組織にも属さず報酬を対価に案件を受ける者の総称だ。傭兵という呼称は業界内での慣用的な呼び方であり法的な定義はない。同じ傭兵でも大企業がバックについた精鋭部隊もあれば個人で受注して動く一匹狼もある。規模も専門性も報酬体系も千差万別だ。
+  </p>
+
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">祓部との違い</div>
+      <div class="col-title">義務か、選択か</div>
+      <div class="col-body">
+        祓部の討伐者は組織の命令と方針に従う義務がある。傭兵は案件を選べる。断れる。撤退できる。<br><br>
+        その自由の対価として<strong style="color:var(--red)">法的保護がなく安定した補給もなく組織の後ろ盾もない。</strong> 現場で何があっても自己責任だ。
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">業界での生存</div>
+      <div class="col-title">実績と信頼が資本</div>
+      <div class="col-body">
+        傭兵が業界で生き残るための資本は二つだ。実績と信頼だ。どんな案件をこなしてきたか、約束を守るかどうか、現場で何をする人間か。それが傭兵の価値を決める。<br><br>
+        <strong style="color:var(--gold)">二つ名はその実績が形になったものだ。</strong> 二つ名を持つ傭兵は一人の人間であると同時に業界における一つのブランドでもある。
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-teal">
+    <strong>強み：</strong> 法的制約を受けない行動の自由 / バック企業によっては高性能・試作品装備へのアクセス / 複数の組織と関係を持てる立場 / 案件を選べる自由<br><br>
+    <strong>制約：</strong> 法的保護が薄く犯罪者扱いされるリスクがある / バック企業の方針に縛られる場合がある / 収益が安定しない / 祓部との摩擦が発生しやすい
+  </div>
+
+  <div class="subheading">依頼人と案件の仕組み</div>
+
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">依頼人の種類</div>
+      <div class="col-title">誰が傭兵を雇うか</div>
+      <div class="col-body">
+        依頼人は多様だ。<strong style="color:var(--text)">個人・企業・地方自治体</strong>はもちろん、<strong style="color:var(--gold)">場合によっては祓部自身</strong>が人員不足を補うために傭兵を雇うこともある。「公的機関が民間に頼む」という構図は表向きには存在しないが、現場レベルでは珍しくない。<br><br>
+        企業が依頼人の場合、解決よりも「情報の隠蔽」や「事態の収束」を優先する条件を付けることがある。依頼内容の全貌は最初から開示されないことも多い。
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">案件の受け方</div>
+      <div class="col-title">どう仕事を得るか</div>
+      <div class="col-body">
+        直接依頼・紹介・仲介業者経由の三パターンがある。大規模集団は独自の受注窓口を持つが、個人傭兵は信頼できる仲介者との関係が命綱になる。<br><br>
+        <strong style="color:var(--red)">案件の情報は不完全なことが多い。</strong> 現場に入ってから想定と違う怪異に遭遇することは珍しくなく、そのための撤退判断と再交渉の能力も傭兵の実力のうちだ。
+      </div>
+    </div>
+  </div>
+
+  <div class="subheading">傭兵の分類</div>
+
+  <table class="data-table">
+    <thead><tr><th>形態</th><th>規模</th><th>特徴</th><th>リスク</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>企業バック型集団</strong></td>
+        <td>中〜大規模</td>
+        <td>高性能装備・安定した案件供給。企業の試作品運用を担うことも。</td>
+        <td>企業の意向が優先される。情報管理条項で口を封じられる可能性。</td>
+      </tr>
+      <tr>
+        <td><strong>完全独立型集団</strong></td>
+        <td>小〜中規模</td>
+        <td>特定の縛りがない。専門性の高い案件に特化しやすい。</td>
+        <td>資金繰りが不安定。危険な案件を断れない状況に陥りやすい。</td>
+      </tr>
+      <tr>
+        <td><strong>二つ名持ち個人</strong></td>
+        <td>個人</td>
+        <td>業界での信頼が高く特定分野での実績が際立つ。行動の自由度が最大。</td>
+        <td>後ろ盾なし。孤立した現場での対応は完全に自己完結が必要。</td>
+      </tr>
+      <tr>
+        <td><strong>名なし個人</strong></td>
+        <td>個人</td>
+        <td>業界内での立ち位置が流動的。どこへでも潜り込める匿名性。</td>
+        <td>信頼がなく依頼が来づらい。足元を見られやすい。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box box-gold">
+    <strong>二つ名について：</strong> 二つ名は自称ではなく業界から与えられるものだ。現場でどう動いたか、何を成し遂げたか、あるいは何をしでかしたか。その積み重ねが形になって名前になる。二つ名を持つことは信頼の証であり、同時に「その名前に期待される動き方」を縛るものでもある。二つ名持ちは断りにくい依頼があり、裏切りにくい仁義がある。
+  </div>
+
+  <div class="subheading">祓部との関係</div>
+  <p style="font-size:0.83rem;color:var(--text-dim);line-height:2;margin-bottom:0.8rem;">
+    傭兵と祓部の関係は複雑だ。対立・協力・無視・監視が案件や人間関係によって混在する。傭兵を犯罪者に近い存在として扱う祓士がいる一方、現場では傭兵の実力と知識を頼りにする祓士も多い。公式な関係は存在しないが非公式な協力は日常的に行われている。
+  </p>
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">協力が生まれやすいケース</div>
+      <div class="col-body" style="font-size:0.82rem;line-height:1.9;">
+        — 祓部が人員不足で対応できない案件<br>
+        — 特定分野の専門知識を持つ傭兵を必要とする調査<br>
+        — 封印・管理補助など継続的な作業が必要な現場<br>
+        — 御神楽事変後の混乱期（現在進行中）
+      </div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">摩擦が生まれやすいケース</div>
+      <div class="col-body" style="font-size:0.82rem;line-height:1.9;color:var(--red);">
+        — 祓部が把握していない情報を傭兵が先に持っている<br>
+        — 同一現場に祓部と傭兵が重複して入った時<br>
+        — 傭兵が「正規手続きを無視した」討伐を行った後<br>
+        — 企業利益と公的利益が衝突する案件
+      </div>
+    </div>
+  </div>
+
+  <div class="subheading">既知の集団</div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(event,'merc','merc-tec')">鉄蟲隊</button>
+    <button class="tab-btn" onclick="switchTab(event,'merc','merc-shi')">白鷺調査社</button>
+    <button class="tab-btn" onclick="switchTab(event,'merc','merc-kis')">煙管組</button>
+    <button class="tab-btn" onclick="switchTab(event,'merc','merc-mik')">三日月旅団</button>
+  </div>
+
+  <div id="merc-tec" class="tab-content active">
+    <div class="org-detail">
+      <div class="org-header"><div class="org-name">鉄蟲隊（てっちゅうたい）</div><div class="org-tag">中規模集団 / 20〜30名 / 雷禽重工バック / 工業地帯近郊拠点</div></div>
+      <div class="org-body">
+        <p>雷禽重工の次世代機動兵器プログラムの最初期の運用部隊として発足した傭兵集団だ。現在は雷禽重工との契約を維持しながら複数の独立系企業からも案件を受ける形で運営されている。戦闘用搭乗型の実戦運用において<strong style="color:var(--text)">業界最高水準の実績</strong>を持つ。</p>
+        <p>隊長を中心に機動兵器パイロット班・地上支援班・整備班の三班構成だ。パイロット班は常に不足しており新規パイロットの発掘と育成が常態的な課題になっている。整備班は雷禽重工からの出向技術者と独自採用の技術者が混在しており機体性能と安全基準の解釈を巡って衝突が絶えない。</p>
+        <p>雷鳥機動シリーズを主力機体として運用している。数名のパイロットが長期同調による<strong style="color:var(--red)">変質を自覚</strong>しており組織内で非公式に情報を共有している。雷禽重工はこの情報の外部漏洩を防ぐために鉄蟲隊との契約に厳しい情報管理条項を設けている。何を知っているかによって命の値段が変わる集団だ。</p>
+        <div class="char-drama" style="margin-top:0.8rem;"><div class="char-drama-title">キャラクター接点</div><ul>
+          <li>新規パイロットとして加入する</li>
+          <li>変質が進んだパイロットの後任・同僚として関わる</li>
+          <li>雷禽重工との契約条件の不透明さに気づく</li>
+          <li>整備班の技術者として装備の限界を知っている</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+  <div id="merc-shi" class="tab-content">
+    <div class="org-detail">
+      <div class="org-header"><div class="org-name">白鷺調査社（しらさぎちょうさしゃ）</div><div class="org-tag">小規模集団 / 5〜8名 / 朱鷺崎財閥（緩やかな繋がり）/ 旧市街事務所</div></div>
+      <div class="org-body">
+        <p>表向きは「民間調査事務所」として登録されている傭兵集団だ。怪異の調査・解明に特化しており戦闘は自衛のみを原則としている。依頼人から案件を受けて調査・解明までを担い戦闘が必要な場合は別の傭兵や祓部に引き継ぐ形を取る。</p>
+        <p>「怪異を倒すより怪異を理解することに価値がある」という哲学を持つ集団だ。民俗学者・元斎者・情報ブローカー・元新怪班出身者など知識と情報収集に長けた人材が揃っている。社長格の人物が案件の受注と方針決定を担い、固定メンバー五名に加えて案件に応じて外部の協力者を招集する柔軟な体制を持つ。</p>
+        <p>祓部のデータベースには載っていない非公式な情報網を独自に構築している。民俗学コミュニティ・オカルトマニア・神社関係者・怪異被害者のネットワークが情報源だ。調査プロセスにおいては<strong style="color:var(--text)">祓部にも匹敵する解明能力</strong>を持つと評価されている。戦闘力が低いため想定外の甲種に遭遇した場合のリスクが高く、撤退判断を下す基準が他の傭兵より厳格だ。</p>
+        <div class="char-drama" style="margin-top:0.8rem;"><div class="char-drama-title">キャラクター接点</div><ul>
+          <li>調査の依頼者または協力者として接触する</li>
+          <li>独自の情報網から重要な情報を入手する</li>
+          <li>祓部が把握していない事実を先に掴んでいる</li>
+          <li>戦闘力不足の穴を埋める戦闘要員として同行する</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+  <div id="merc-kis" class="tab-content">
+    <div class="org-detail">
+      <div class="org-header"><div class="org-name">煙管組（きせるぐみ）</div><div class="org-tag">大規模集団 / 50名以上 / 複数独立系企業・闇市場繋がり / 複数都市分散</div></div>
+      <div class="org-body">
+        <p>傭兵業界では古参の大規模集団だ。特定の専門性を持たず幅広い案件を受ける汎用型で、討伐より「怪異に関わるあらゆる仕事の窓口」としての機能が強い。内部の規律は緩く各班が半独立的に動く形態を取っている。</p>
+        <p>頭（かしら）と呼ばれる代表の下に複数の班長が並列する構造だ。班長同士の競争が激しく内部政治が複雑だ。<strong style="color:var(--gold)">頭の代替わりが近いという噂が流れており次の代表を巡る暗闘が始まっているとされる。</strong> この不安定さが組織全体のバランスを微妙に崩している。</p>
+        <p>闇市場との繋がりがあるため特殊な装備の入手ルートを持っているという情報がある。祓部の監視対象だが規模が大きく一網打尽にできない状態が続いている。<strong style="color:var(--red)">内部に祓部の情報提供者が潜んでいるという噂があり組織内部での相互不信が慢性化している。</strong></p>
+        <div class="char-drama" style="margin-top:0.8rem;"><div class="char-drama-title">キャラクター接点</div><ul>
+          <li>案件の依頼・受注窓口として関わる</li>
+          <li>内部の情報提供者として二重スパイ的な立場に置かれる</li>
+          <li>代表の代替わり争いに巻き込まれる</li>
+          <li>闇市場ルートの調査対象として接触する</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+  <div id="merc-mik" class="tab-content">
+    <div class="org-detail">
+      <div class="org-header"><div class="org-name">三日月旅団（みかづきりょだん）</div><div class="org-tag">中規模集団 / 15〜20名 / 完全独立 / 移動型・定住拠点なし</div></div>
+      <div class="org-body">
+        <p>特定の企業に依存しない完全独立型の傭兵集団だ。禁足地の周辺調査・封印状態の確認補助・定着型怪異への対処を専門とする。祓部が人員不足で対応できない封印管理の補助案件を引き受けることが多く<strong style="color:var(--text)">祓部との協力関係が最も安定している傭兵集団の一つだ。</strong></p>
+        <p>2034年の白銀の廃線事件で祓部と共同作業を経験した数名が中心となって結成された。旅団長を中心にフラットな構造を持ち、全員が定着型怪異への対処経験者であり怪異の気配に対する感覚が鋭い。移動型の運営を維持するための搭乗型装備が充実している。</p>
+        <p>禁足地周辺の長期滞在経験から定着型怪異の性質に関する独自の知見を蓄積している。封印状態の微細な変化を察知する能力は業界でも突出している。<strong style="color:var(--red)">完全独立のため資金繰りが常に課題だ。</strong> 危険な案件を断れない状況に追い込まれることがある。</p>
+        <div class="char-drama" style="margin-top:0.8rem;"><div class="char-drama-title">キャラクター接点</div><ul>
+          <li>白銀の廃線事件の生存者として因縁がある</li>
+          <li>禁足地周辺の封印異変を最初に察知する</li>
+          <li>御神楽事変後の封印再設置補助に関わる</li>
+          <li>資金難から危険な案件を引き受けざるを得ない状況に追い込まれる</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subheading">既知の個人（二つ名持ち）</div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">二つ名「鉄格子（てつごうし）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">先天覚醒型（元祓部）</span>
+        <span class="char-meta-item">封印・防御・拠点構築</span>
+        <span class="char-meta-item">半装身型（蒼鉄機工製・大規模改造済み）＋独立型複数機</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">経歴と人物</div>
+      <div class="char-section-body">元祓部の封印班出身の傭兵だ。方針対立が原因で組織を離れたという話が流れている。現在は特定の集団には属さず独立した立場で活動している。「鉄格子」の二つ名は怪異を閉じ込める封印の名手として広まった。戦闘で怪異を倒すのではなく封じ込めて動けなくする戦闘スタイルが特徴だ。古い怪異への知識が深く調査・解明プロセスの支援を依頼されることも多い。<br><br>祓部の封印派の思想を今も持っており怪異をすぐに滅することへの抵抗感がある。この姿勢が現役祓部の封印派と非公式に協力する理由になっている。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul>
+        <li>討伐派の方針で動く案件で封印を選ぶか討伐を選ぶかの板挟みに立たされる</li>
+        <li>かつての祓部の同僚と現場で再会する</li>
+        <li>封じ込めた怪異が何らかの理由で解放された時の責任と向き合う</li>
+        <li>現役の封印派祓士との非公式な協力が組織に発覚するリスク</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">二つ名「紙雷（かみなり）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">ショック覚醒型</span>
+        <span class="char-meta-item">高速戦闘・新型怪異対処</span>
+        <span class="char-meta-item">全装身型（雷禽重工製・雷神鎧シリーズ）</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">経歴と人物</div>
+      <div class="char-section-body">三年前の新型怪異による被害で家族を失ったことがショック覚醒のきっかけだ。雷神鎧シリーズとの同調率が業界最高水準であることから「紙雷」の二つ名を持つ。機体性能を限界まで引き出す戦闘スタイルは圧倒的だが<strong style="color:var(--red)">長期同調による変質が問題になりつつある。</strong><br><br>調査・解明プロセスを軽視しがちな点を周囲から指摘されるが本人は「感覚でルールが分かる」と主張する。家族を失った怒りが動機の中心にある。その怒りが力の源泉であり、同時に判断を歪める要因でもある。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul>
+        <li>「感覚でルールが分かる」という自信が裏切られる瞬間</li>
+        <li>長期同調による変質が自分でも気づかない形で戦闘判断に影響し始める</li>
+        <li>家族を失った事件の真相が当初の理解と異なっていた可能性が浮上する</li>
+        <li>変質の進行を知りながら機体に乗り続けるという選択の意味を問われる</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">二つ名「骨董屋（こっとうや）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">接触覚醒型</span>
+        <span class="char-meta-item">古い怪異の調査・解明・素材収集</span>
+        <span class="char-meta-item">武装型（怪異核素材武器複数）＋専用の収集道具</span>
+        <span class="char-meta-item" style="color:var(--red);">侵食率：あり（複数核素材使用）</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">経歴と人物</div>
+      <div class="char-section-body">古い怪異の核素材を長年収集してきた民俗学者崩れの傭兵だ。「骨董屋」の二つ名は古い怪異の素材を集めていることと本人が古物商の免許を持っていることに由来する。古い怪異に関する知識の深さは祓部の斎者に匹敵する。<br><br>怪異核素材武器を複数所持しておりそれぞれが異なる古い怪異の核から作られている。使用するたびに微妙に異なる感覚の変質が進んでいることを本人は認識している。純粋な知的好奇心が動機の中心で怪異を滅することより理解することに興味がある。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul>
+        <li>それぞれの核素材から生じる侵食が混在し始め自分でも制御が難しくなる</li>
+        <li>古い怪異の研究が祓部の斎者との知識交流に発展し立場が曖昧になる</li>
+        <li>収集した素材の一つが「まだ生きている」と気づく瞬間</li>
+        <li>骨董屋としての人生と傭兵としての人生のどちらが本体なのかを問われる</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">二つ名「鴉（からす）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">実験覚醒型（教団逃亡者）</span>
+        <span class="char-meta-item">対教団・変質制御・情報収集</span>
+        <span class="char-meta-item">異能（アプリケーション）直接行使＋武装型（最小限）</span>
+        <span class="char-meta-item" style="color:var(--red);">侵食率：あり・代償大</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">経歴と人物</div>
+      <div class="char-section-body">何者かの実験から逃亡した実験覚醒型の傭兵だ。非常に高い素養強度を持つが身体への代償も大きく常時何らかの不調を抱えている。特定の組織との関係を持つことを拒否しており完全独立で活動している。<br><br>「鴉」の二つ名は実験中に付けられたコードネームが由来だ。本人は嫌っているが他に知られている名前がないためそのまま使われている。<strong style="color:var(--red)">追われている自覚があり周囲との関係を意図的に浅く保っている。</strong> 信頼を築くことを恐れているのか、それとも誰かを巻き込みたくないのかは本人もはっきりとは答えない。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul>
+        <li>実験を行った組織の追手が予想外の形で現れる</li>
+        <li>意図的に浅く保っていた関係が、ある出来事を機に深くなってしまう</li>
+        <li>自分を実験した者の目的が当初の想定より複雑だったと知る</li>
+        <li>身体への代償が臨界に近づく中で次の行動を選ぶ</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="subheading">傭兵間の不文律</div>
+  <p style="font-size:0.83rem;color:var(--text-dim);line-height:2;margin-bottom:1rem;">これらの不文律を守らない傭兵は業界での信頼を失う。守らなかった者の末路が噂として語り継がれることが抑止力になっている。</p>
+  <ul class="rule-list">
+    <li><span class="rule-bullet">◆</span>同じ現場に複数の傭兵が入った場合は情報共有が原則</li>
+    <li><span class="rule-bullet">◆</span>依頼人の情報を無断で第三者に売らない</li>
+    <li><span class="rule-bullet">◆</span>逃亡者・実験体の覚醒経緯を詮索しない</li>
+    <li><span class="rule-bullet">◆</span>仕事中の私怨は持ち込まない</li>
+  </ul>
+</section>
+
+<!-- ══════════ 11 無所属詳細 ══════════ -->
+<section class="page-section" id="unaffiliated">
+  <div class="section-eyebrow">11 — Unaffiliated Details</div>
+  <h2 class="section-title">無所属詳細 <span class="section-title-sub">UNAFFILIATED</span></h2>
+
+  <p class="section-lead">
+    無所属とは国にも企業にも属さない個人または小集団の総称だ。共通しているのは「組織に属さない」という一点だけであり互いの覚醒経緯を詮索しない不文律がある。
+  </p>
+
+  <div class="box box-gold">
+    <strong>コミュニティの形成：</strong> 2034年の白銀の廃線事件で形成された無所属コミュニティが現在の無所属の繋がりの核になっている。信頼と情報の交換を基盤とした緩やかなネットワークが命綱だ。
+  </div>
+
+  <div class="subheading">無所属の六例</div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">架見・静流</span>
+      <span class="char-alias">「静水（しずみ）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">ショック覚醒型</span>
+        <span class="char-meta-item">元一般人・被害者遺族</span>
+        <span class="char-meta-item">全装身型（朱鷺崎式礼装・非正規品）</span>
+        <span class="char-meta-item">侵食率：なし</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">背景</div><div class="char-section-body">五年前の怪異事件で弟を失った。事件は公式にはガス爆発として処理されたが静流は真実を知っていた。話しても誰にも信じてもらえず孤独の中で独自に怪異の知識を蓄積し討伐者としての活動を始めた。先天的な素養を持っていたことが後から判明した。独学で魔法を習得したため安全管理の知識が不十分だ。</div></div>
+      <div class="char-section"><div class="char-section-title">装備と特徴</div><div class="char-section-body">鴉羽技研を通じて入手した朱鷺崎式礼装の非正規品を使用。古い怪異への干渉能力は本物だ。全装身型を使っているため都市伝説化のリスクが高く「白い鎧の人影」として祓部の新怪班がマークしている。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul><li>弟の死の真相が当初の想定より複雑な事情を含んでいると判明する</li><li>自分が都市伝説化していることを知り怪異発生源になるリスクと向き合う</li><li>独学の魔法が引き起こした副次的な怪異の後始末をする</li></ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">獅子倉・鉄也</span>
+      <span class="char-alias">「解体屋（かいたいや）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">接触覚醒型</span>
+        <span class="char-meta-item">元蒼鉄機工エンジニア</span>
+        <span class="char-meta-item">半装身型（自作・怪異核素材混在）＋独立型</span>
+        <span class="char-meta-item" style="color:var(--red);">侵食率：あり</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">背景</div><div class="char-section-body">蒼鉄機工の技術者として長年働いていたが怪異核素材に近い素材の研究中に覚醒した典型的な接触覚醒型。闇研究部署の存在を知った後に会社への不信が決定的になり、告発を試みたが握りつぶされ降格・異動という圧力をかけられた。現在は蒼鉄機工からマークされている。</div></div>
+      <div class="char-section"><div class="char-section-title">装備と特徴</div><div class="char-section-body">蒼鉄機工での経験を活かした自作の半装身型。怪異核素材の部品を一部組み込んでおり異能の感知能力を拡張する機能を持つ。怪異に対する感知能力が高く調査・解明プロセスで優れた成果を上げる。一方で侵食による感情の変質が進んでいる。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul><li>蒼鉄機工の闇研究部署の証拠を持っており利用価値と危険が表裏一体</li><li>侵食による感情の変質と技術者としての判断力の間のバランス</li><li>自作装備の怪異核素材部品が予期しない反応を起こす</li></ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">夜半・音羽</span>
+      <span class="char-alias">「夜鶯（よなき）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">接触覚醒型→異能発現</span>
+        <span class="char-meta-item">元神社神職・社家の末裔</span>
+        <span class="char-meta-item">武装型（神道的道具＋怪異核素材武器）</span>
+        <span class="char-meta-item" style="color:var(--red);">侵食率：あり</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">背景</div><div class="char-section-body">地方の小さな神社の神職の家に生まれた社家の末裔。先祖代々口承で伝わってきた怪異対処の知識を持って育った。廃社の処理中に蔵の中から先祖が封じていた古い怪異の核素材を発見。封じていた経緯と意図を記した文書も同時に発見したが不完全で全ては読み解けなかった。</div></div>
+      <div class="char-section"><div class="char-section-title">装備と特徴</div><div class="char-section-body">神道的な道具（御幣・祓串・塩・酒）を実際の怪異対処に使用する。祓部の古怪班と近い手法だが民間口承に基づく独自の変奏がある。怪異のルールに干渉する際の精度が高く古い怪異に対して特別な有効性を発揮する。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul><li>不完全な文書の残りを探す調査が物語の軸になる</li><li>廃社跡地の禁足地化への対処が個人的な因縁と絡む</li><li>先祖が核素材を封じていた本当の理由が明らかになる</li></ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">鏑木・紺</span>
+      <span class="char-alias">「影踏み（かげふみ）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">実験覚醒型（祓部内部実験・非公式）</span>
+        <span class="char-meta-item">元祓部見習祓士</span>
+        <span class="char-meta-item">異能直接行使＋最小限の武装</span>
+        <span class="char-meta-item" style="color:var(--red);">侵食率：あり</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">背景</div><div class="char-section-body">祓部の見習祓士だった時代に術式士による非公式な実験の被験者にされた。素養強度が異常に高かったことが実験の対象にされた理由。真実を知った後に組織への不信が決定的になり逃亡した。現在は祓部が「回収すべき存在」としてマークしている。</div></div>
+      <div class="char-section"><div class="char-section-title">装備と特徴</div><div class="char-section-body">異能の直接行使が主な戦闘手段。実験の影響で怪異の気配と構造を感知する能力が突出して高い。改造個体・別個体の判定を誤らないという評判がある。魔導具への依存を最小化している（祓部標準装備との相性が悪い）。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul><li>祓部に「回収」されそうになるたびに逃亡・回避する緊張感</li><li>実験を行った術式士との最終的な対峙</li><li>怪異感知能力の高さが物語上の鍵になる場面</li></ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">廻り・双葉</span>
+      <span class="char-alias">「双眼（そうがん）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">ショック覚醒型→異能発現</span>
+        <span class="char-meta-item">元新聞記者・情報統制の被害者</span>
+        <span class="char-meta-item">独立型複数機＋武装型（軽装）</span>
+        <span class="char-meta-item">侵食率：なし</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">背景</div><div class="char-section-body">地方紙の記者として怪異関連の事件を追っていた末に祓部の情報統制の実態に気づいた。取材を続けると記憶操作を受けたが完全には機能しなかった。断片的な記憶が残り「何かを消された」という確信だけが残った。現在は怪異の情報収集と記録を専門とする無所属討伐者として活動している。</div></div>
+      <div class="char-section"><div class="char-section-title">装備と特徴</div><div class="char-section-body">魔法も異能も使わない珍しい無所属。独立型機体の運用と情報収集・分析に特化した戦闘スタイル。侵食率を持たないため長期的な運用でのリスクが最も低い。一方で純粋な戦闘力は無所属の中でも低い部類だ。</div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul><li>記録者としての使命と仲間の安全のトレードオフ</li><li>記憶操作が完全に機能しなかった理由の解明</li><li>怪異の真実を社会に公表することが新たな怪異を生む可能性</li></ul></div>
+    </div>
+  </div>
+
+  <div class="char-profile">
+    <div class="char-header">
+      <span class="char-name">荒垣・煌</span>
+      <span class="char-alias">「煌骨（こうこつ）」</span>
+      <div class="char-meta">
+        <span class="char-meta-item">接触覚醒型</span>
+        <span class="char-meta-item">元鉄蟲隊パイロット</span>
+        <span class="char-meta-item">戦闘用搭乗型（鉄蟲隊からの持ち出し機・改造済み）</span>
+        <span class="char-meta-item" style="color:var(--red);">侵食率：あり・高侵食域（60〜70%）</span>
+      </div>
+    </div>
+    <div class="char-body">
+      <div class="char-section"><div class="char-section-title">背景</div><div class="char-section-body">鉄蟲隊の元エースパイロット。雷鳥機動シリーズとの長期同調によって侵食率が高侵食域に達した。鉄蟲隊はデータ隠蔽の事実を知った後に機体を持ち出して離脱した。現在は雷禽重工と鉄蟲隊の両方から機体の返還を求められているが返す気がない。</div></div>
+      <div class="char-section"><div class="char-section-title">装備と特徴</div><div class="char-section-body">持ち出した機体を独自に改造して運用。長期同調によって機体との一体感が異常なほど高くなっており通常のパイロットには不可能な動きができる。一方で機体から離れると明確な喪失感がある。高侵食域にあるため<strong style="color:var(--red)">暴走のリスクを常に抱えている。</strong></div></div>
+      <div class="char-drama"><div class="char-drama-title">ドラマの種</div><ul><li>機体依存と侵食の進行が絡み合う心理的な葛藤</li><li>雷禽重工・鉄蟲隊の追手との攻防</li><li>機体が完全に怪異化した場合の最悪のシナリオへの自覚</li></ul></div>
+    </div>
+  </div>
+
+  <div class="subheading">無所属六例まとめ</div>
+  <table class="data-table">
+    <thead><tr><th>名前</th><th>二つ名</th><th>覚醒</th><th>背景</th><th>主力装備</th><th>侵食</th></tr></thead>
+    <tbody>
+      <tr><td>架見・静流</td><td>静水</td><td>ショック</td><td>被害者遺族</td><td>全装身型</td><td>なし</td></tr>
+      <tr><td>獅子倉・鉄也</td><td>解体屋</td><td>接触</td><td>元蒼鉄機工</td><td>半装身型＋独立型</td><td><span class="hl-r">あり</span></td></tr>
+      <tr><td>夜半・音羽</td><td>夜鶯</td><td>接触</td><td>社家末裔</td><td>武装型（神道）</td><td><span class="hl-r">あり</span></td></tr>
+      <tr><td>鏑木・紺</td><td>影踏み</td><td>実験</td><td>元祓部</td><td>異能直接行使</td><td><span class="hl-r">あり</span></td></tr>
+      <tr><td>廻り・双葉</td><td>双眼</td><td>ショック</td><td>元記者</td><td>独立型</td><td>なし</td></tr>
+      <tr><td>荒垣・煌</td><td>煌骨</td><td>接触</td><td>元傭兵</td><td>戦闘用搭乗型</td><td><span class="hl-r">あり・高</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════ 12 企業詳細 ══════════ -->
+<section class="page-section" id="companies">
+  <div class="section-eyebrow">12 — Company Details</div>
+  <h2 class="section-title">企業詳細 <span class="section-title-sub">COMPANIES</span></h2>
+
+  <p class="section-lead">魔導具産業は国家系企業と独立系企業の二極構造を持つ。国家系は安全・保守・安定、独立系は高性能・高リスク・尖りという非対称性が産業全体の基盤をなす。</p>
+
+  <div class="corp-card">
+    <div class="corp-header">
+      <div class="corp-name">蒼鉄機工（そうてつきこう）</div>
+      <div class="corp-type">国家系企業 / 設立：1900年代初頭 / 主取引先：祓部・国家機関</div>
+    </div>
+    <div class="corp-body">
+      <p>この世界最古の魔導具製造企業。「安全基準を作る側」の立場を維持してきた。製品の性能より安定性と安全基準を優先する社風が徹底している。社内では「怪異を生まない製品を作る」という言葉が合言葉として使われている。</p>
+      <div class="corp-section-title">主要製品ライン</div>
+      <ul class="product-list">
+        <li><span class="product-name">標準魔導武装シリーズ</span>祓部への標準支給品。剣・銃・補助装置の三種が基本構成で素養の有無に関わらず安定した出力を得られる設計。</li>
+        <li><span class="product-name">鉄甲シリーズ（半装身型・全装身型）</span>祓部向けに設計された装身型装備。安全基準を最優先で設計。全装身型の鉄甲壱式は2019年の事故以降改良版の弐式が開発中。</li>
+        <li><span class="product-name">蒼鉄機動シリーズ（戦闘用搭乗型）</span>安全優先設計の機動兵器。最大出力は独立系に劣るが長時間稼働時の安定性と整備性が強み。</li>
+      </ul>
+      <div class="corp-section-title">内部の問題</div>
+      <p>開発部門（性能向上を求める）と安全管理部門（基準の維持を求める）の対立が慢性化。2019年の事故以降、安全管理部門の発言力がさらに強化された。獅子倉・鉄也のような告発者が生まれる背景がここにある。</p>
+    </div>
+  </div>
+
+  <div class="corp-card">
+    <div class="corp-header">
+      <div class="corp-name">雷禽重工（らいきんじゅうこう）</div>
+      <div class="corp-type">独立系企業（最大手）/ 設立：1973年 / 主取引先：傭兵集団</div>
+    </div>
+    <div class="corp-body">
+      <p>独立系企業の中で最大の規模と技術力を持つ。「性能が全て」という哲学が社風の核心にある。安全基準は守る。しかし基準の範囲内で可能な限り尖った製品を作る。傭兵の現場からのフィードバックを製品開発に直接反映するサイクルが確立されている。</p>
+      <div class="corp-section-title">主要製品ライン</div>
+      <ul class="product-list">
+        <li><span class="product-name">羽衣シリーズ（半装身型）</span>軽量・高機動を両立した傭兵の定番。モジュール交換による拡張性が高く使用者の戦闘スタイルへの適応が容易だ。</li>
+        <li><span class="product-name">雷神鎧シリーズ（全装身型）</span>同調した使用者の素養を最大限に引き出す設計。高い同調率が実現すると同価格帯の蒼鉄製品の二倍以上の性能を発揮。しかし同調失敗時は逆に能力を制限する。</li>
+        <li><span class="product-name">雷鳥機動シリーズ（戦闘用搭乗型）</span>パイロットの素養と機体を直接同調させる設計。2031年実用化。<strong style="color:var(--red)">長期運用時のパイロットへの影響は詳細が公開されていない。</strong></li>
+        <li><span class="product-name">試作品の傭兵運用プログラム</span>正式ラインナップ外の試作品を傭兵に実戦テストさせるプログラム。傭兵側は最新技術を低コストで使える代わりに詳細な実戦データを提供する義務がある。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="corp-card">
+    <div class="corp-header">
+      <div class="corp-name">鴉羽技研（からすばぎけん）</div>
+      <div class="corp-type">独立系企業（中小・特化型）/ 設立：2010年代 / 主取引先：無所属・闇市場周辺</div>
+    </div>
+    <div class="corp-body">
+      <p>魔導具産業の外縁に存在する特化型の小企業。表向きは「カスタマイズ・修理・改造サービス」を提供する業者だが実態は法律の解釈の余地を最大限に利用した「グレーゾーンの職人集団」だ。</p>
+      <p><strong style="color:var(--gold)">顧客のプライバシーを絶対に守る。代金を払えば何も聞かない。</strong> この一点が無所属の討伐者から絶大な信頼を得ている理由だ。</p>
+      <div class="corp-section-title">主要サービス</div>
+      <ul class="product-list">
+        <li><span class="product-name">特注カスタマイズ</span>既存の魔導具・装備を顧客の戦闘スタイルや素養特性に合わせて改造する。正規ルートでは対応できない改造を引き受ける。</li>
+        <li><span class="product-name">怪異核素材の取り扱い</span>壊れた怪異核から武器素材を取り出す加工技術を持つ。無所属討伐者が頼りにする業者だ。</li>
+        <li><span class="product-name">旧式機のレストア</span>廃棄された旧型機動兵器を修復・改造して運用可能な状態にする。無所属が戦闘用搭乗型を持てる場合の多くは鴉羽技研が関わっているとされる。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="corp-card">
+    <div class="corp-header">
+      <div class="corp-name">朱鷺崎財閥（ときさきざいばつ）・技術部門</div>
+      <div class="corp-type">財閥系・複合企業 / 設立：1800年代末 / 主取引先：国家・独立系傭兵・一部海外組織</div>
+    </div>
+    <div class="corp-body">
+      <p>魔導具製造だけを行う企業ではない。金融・不動産・輸送・情報・魔導具製造を傘下に収める複合財閥。内部には国家とも独立系とも異なる独自の怪異観と魔法哲学を持つ古い一族の思想が残っている。</p>
+      <p><strong style="color:var(--red)">取引には独自の条件がつくことが多く関わった後に何らかの義務が発生するという話が絶えない。</strong></p>
+      <div class="corp-section-title">主要製品ライン</div>
+      <ul class="product-list">
+        <li><span class="product-name">朱鷺崎式礼装シリーズ（全装身型）</span>怪異のルールへの干渉を重視した設計。古い怪異に対して特別な有効性を発揮する。流通数が極めて少なく所持しているだけで「どこかと繋がりがある」と見られる装備だ。</li>
+        <li><span class="product-name">朱鷺崎式機動甲冑（戦闘用搭乗型）</span>旧来の鎧の意匠を取り入れた独特の外見。古い怪異のルールに従った攻撃と防御が可能だという情報がある。整備には専用の技術者が必要だ。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subheading">企業比較まとめ</div>
+  <table class="data-table">
+    <thead><tr><th>企業</th><th>特徴</th><th>強み</th><th>弱み・制約</th></tr></thead>
+    <tbody>
+      <tr><td>蒼鉄機工</td><td>安定志向・組織人</td><td>安定した装備・祓部との繋がり</td><td>革新が遅い・官僚的制約</td></tr>
+      <tr><td>雷禽重工</td><td>実力主義・尖った技術</td><td>高性能装備・試作品・実戦データ</td><td><span class="hl-r">長期運用リスク・情報不透明</span></td></tr>
+      <tr><td>鴉羽技研</td><td>アウトロー職人集団</td><td>特注・改造・怪異核素材</td><td>法的グレー・信頼は金次第</td></tr>
+      <tr><td>朱鷺崎財閥</td><td>謎めいた古い一族</td><td>独自技術・古い怪異への特効</td><td>取引条件・財閥の目的不明</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════ 13 キャラクター作成 ══════════ -->
+<section class="page-section" id="character">
+  <div class="section-eyebrow">13 — Character Creation</div>
+  <h2 class="section-title">キャラクター作成ガイド <span class="section-title-sub">CHARACTER CREATION</span></h2>
+
+  <p class="section-lead">
+    あなたはこの世界の討伐者だ。以下の五つの軸があなたのキャラクターを決定する。
+  </p>
+
+  <div class="char-axes">
+    <div class="char-axis">
+      <div class="axis-num">AXIS 01</div>
+      <div class="axis-name">所属</div>
+      <div class="axis-options">
+        <div class="axis-opt">⛩ 公的機関（祓部）<small>DB閲覧権。行動制約あり。古い怪異に強い。</small></div>
+        <div class="axis-opt">⚔ 傭兵集団<small>高性能装備・法的制約なし。企業への依存がある。</small></div>
+        <div class="axis-opt">◈ 無所属<small>完全な自由と完全な危険。全勢力から警戒される。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 02</div>
+      <div class="axis-name">覚醒パターン</div>
+      <div class="axis-options">
+        <div class="axis-opt">先天覚醒型<small>生まれつき素養。祓部に多い。安定。</small></div>
+        <div class="axis-opt">ショック覚醒型<small>強烈な体験が引き金。恨みが動機に直結。</small></div>
+        <div class="axis-opt">実験覚醒型<small>強制覚醒・代償大。追われている可能性。</small></div>
+        <div class="axis-opt">接触覚醒型<small>核や素材への接触。侵食リスク伴う。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 03</div>
+      <div class="axis-name">能力スタイル</div>
+      <div class="axis-options">
+        <div class="axis-opt">魔法（チートコード）直接行使<small>高い再現性。怪異を生むリスクと表裏一体。</small></div>
+        <div class="axis-opt">魔導具運用<small>素養不要。安定した出力。企業依存。</small></div>
+        <div class="axis-opt">異能（アプリケーション）<small>制御が難しい。使うたびに何かが変わる可能性。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 04</div>
+      <div class="axis-name">主力装備</div>
+      <div class="axis-options">
+        <div class="axis-opt">武装型<small>扱いやすい。素養不要。リスク低。</small></div>
+        <div class="axis-opt">独立型・半装身型<small>バランス型。中リスク。</small></div>
+        <div class="axis-opt">全装身型<small>高性能・都市伝説化リスク。扱いにくい。</small></div>
+        <div class="axis-opt">搭乗型・戦闘用搭乗型<small>機動力・大型怪異対応。高リスク。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 05</div>
+      <div class="axis-name">因縁</div>
+      <div class="axis-options">
+        <div class="axis-opt">何を失ったか</div>
+        <div class="axis-opt">何を追っているか</div>
+        <div class="axis-opt">この世界で戦い続ける理由</div>
+        <div class="axis-opt">組織に入らない理由</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-gold">
+    <strong>重要な問い：</strong> 無所属のキャラクターが最も問われるのは「なぜ組織に入らないのか」だ。組織への不信・過去の傷・自分の力の制御不能・誰かを巻き込みたくない・自由でなければできないことがある。それぞれの理由がキャラクターの行動と選択を規定する。
+  </div>
+
+  <div class="subheading">装備選択の参考</div>
+  <table class="data-table">
+    <thead><tr><th>分類</th><th>主な用途</th><th>怪異発生リスク</th><th>扱いやすさ</th><th>向いている所属</th></tr></thead>
+    <tbody>
+      <tr><td>武装型</td><td>近中距離戦闘・補助</td><td>低</td><td>高い</td><td>全所属</td></tr>
+      <tr><td>独立型</td><td>偵察・支援・包囲</td><td>中</td><td>機体依存</td><td>傭兵・無所属</td></tr>
+      <tr><td>半装身型</td><td>部位強化・中火力</td><td>中</td><td>中程度</td><td>傭兵（カスタム前提）</td></tr>
+      <tr><td>全装身型</td><td>高火力・高防御</td><td>高</td><td>低い（相性次第）</td><td>傭兵・特定の無所属</td></tr>
+      <tr><td>搭乗型</td><td>機動・輸送・制圧</td><td>中</td><td>中程度</td><td>三日月旅団系</td></tr>
+      <tr><td>戦闘用搭乗型</td><td>大型怪異討伐</td><td>非常に高い</td><td>非常に低い</td><td>鉄蟲隊・特殊無所属</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════ 14 用語集 ══════════ -->
+<section class="page-section" id="glossary">
+  <div class="section-eyebrow">14 — Glossary</div>
+  <h2 class="section-title">用語集 <span class="section-title-sub">GLOSSARY</span></h2>
+
+  <p style="font-size:0.82rem;color:var(--text-dim);margin-bottom:1.5rem;">★は討伐者の間で広く共有されている重要用語。？は情報が不完全または真偽不明の用語。クリックして展開。</p>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="glossarySearch" placeholder="用語を検索…" oninput="filterGlossary()">
+  </div>
+
+  <div id="glossaryList">
+
+    <div class="sec-divider"><span>第一章：世界観・基本概念</span></div>
+
+    <div class="gloss-entry" data-keywords="バグ 怪異 チートコード 噂">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">バグ</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">専門家が怪異を指して使う技術的な呼称。噂・言説・集合的信念が臨界点を超えた時に現実へと侵食する現象の総称。魔法をチートコードと呼ぶのに対し怪異はバグと呼ぶ。チートコードが意図的な世界への介入であるのに対しバグは意図せぬ誤作動だ。発生原理・増殖構造・消滅条件の全てがソフトウェアのバグのアナロジーで説明できることから定着した呼称だ。<div class="gloss-related">関連：怪異、チートコード、噂</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="チートコード 魔法 素養 魔導具">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">チートコード</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">魔法を指す技術的な呼称。世界のソースコードに直接介入し現実に超常的な効果をもたらす技術。バグ（怪異）が意図せぬ誤作動であるのに対しチートコードは意図的な書き換えだ。大きな書き換えは大きなバグを生む可能性があるためリスクと表裏一体の関係にある。<div class="gloss-related">関連：魔法、素養、魔導具</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="噂 怪異 信念密度 発生原理">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">噂</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の発生原理の核心をなす概念。噂が広まり信じる人間が増え集合的な信念の密度が閾値を超えると現実にバグとして出力される。オカルトがフィクションとして消費され怪談として語られることも噂の拡散に寄与する。噂を広める行為が意図せず怪異を生む可能性があることを討伐者は常に意識する必要がある。<div class="gloss-related">関連：怪異、信念密度、発生原理</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="信念密度 怪異 等級 存在強度">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">信念密度</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の本質的な強さを決定する指標。どれだけ多くの人間がどれだけ長く信じてきたかが密度を決める。古い怪異は信念密度が高く強力だが対処法が確立されている場合が多い。SNS時代においては拡散速度が信念密度の蓄積速度に直結するため新しい怪異でも短期間で高密度に達するケースがある。<div class="gloss-related">関連：怪異の等級、存在強度、噂</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第二章：怪異</span></div>
+
+    <div class="gloss-entry" data-keywords="怪異 バグ 核 ルール 信念密度">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">怪異</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">集合的な噂・言説・信念が臨界点を超えた時に現実へと侵食する存在の総称。全ての怪異は核とルールを持つ。核は怪異の存在の中心であり消滅条件の鍵。ルールは怪異が人間を害するための条件だ。怪異は討伐者と一般人を区別しない。知識・訓練・装備の差が生存率を変える。<div class="gloss-related">関連：バグ、核、ルール、信念密度</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="核 怪異 破壊 怪異核素材">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">核</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の存在の中心であり消滅条件の鍵となる部位。基本的には物に宿る。特定の場所・道具・建造物・記録媒体などが核になる。稀に死体や生きた人間に宿る場合があり対処の難度と倫理的複雑さが跳ね上がる。核を無効化・破壊することが怪異消滅の最短経路だが、どこに何が核なのかは調査・解明を経て初めて分かる。<div class="gloss-related">関連：怪異、破壊、怪異核素材</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="ルール 怪異 解明プロセス">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">ルール</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異が人間を害するための条件。怪異はこのルールに従ってしか人間を害せない。ルールを破れば破るほど怪異から逃げられなくなる。ルールは怪異が人を殺す手順であると同時に怪異が人を捕捉・追跡するトリガーでもある。無意識にルールを一度も破らなかった一般人が理由も分からず生還するケースがある。<div class="gloss-related">関連：怪異、解明プロセス</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="改造個体 ルール変質 別個体">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">改造個体</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異分類</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">元の怪異のルールが変質しているが変質割合が50%未満の怪異。既存の知識がある程度通用するが決定的にルールが食い違う一点で驚きが生じる。調査段階では文献との齟齬・被害パターンの不一致・核の所在の混乱・目撃証言の分裂という四つの違和感として現れる。<div class="gloss-related">関連：別個体、ルール変質</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="別個体 ルール変質 改造個体">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">別個体</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異分類</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">元の怪異のルールが変質割合50%以上になった怪異。新しい核と新しいルールを持つ完全に別の怪異として扱う。元の怪異の知識はほぼ役に立たない。最も恐ろしいパターンは改造個体と解明して討伐に挑んだ瞬間に別個体だと判明するケースだ。<div class="gloss-related">関連：改造個体、ルール変質</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第三章：能力</span></div>
+
+    <div class="gloss-entry" data-keywords="素養 魔法 魔力 覚醒パターン">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">素養</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">能力</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">魔力を体内から外に出し世界を書き換える感覚を自力でコントロールできる能力。音感に近い特殊な知覚能力であり完全な天性ではないが訓練だけでも開けない。素養の芽自体は人口の30〜40%に潜在しているが実際に使えるレベルまで開花するかどうかは訓練・環境・きっかけに大きく左右される。<div class="gloss-related">関連：魔法、魔力、覚醒パターン</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="異能 侵食 怪異化 覚醒パターン">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">異能</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">能力</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">魔法とは根本的に異なる能力体系。怪異と同じ発生原理の延長線上にある力であり強烈な体験・執着・信念が人間の内側で生み出す。魔法より直感的に扱えるが制御が難しい。一人一人の異能が固有の形を持つ。使い続けると使用者が怪異に近づいていくリスクがあるとされている。<div class="gloss-related">関連：侵食、怪異化、覚醒パターン</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="侵食 異能 怪異化">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">侵食</span><span class="gloss-q">？</span>
+        <span class="gloss-cat">能力</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">異能や特殊な装備を長期間使用することで使用者が怪異に近づいていく現象。詳細なメカニズムは不明。外見・思考・感情に変質が現れ始めるケースが報告されている。どこまで進むと取り返しがつかなくなるのかは不明だ。侵食が進んだ討伐者が討伐対象になった事例があるという話が無所属の間に流れている。<div class="gloss-related">関連：異能、怪異化</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第四章：組織・場所</span></div>
+
+    <div class="gloss-entry" data-keywords="祓部 魔導省 素養検査">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">祓部（はらえべ）</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">組織</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">公的な怪異対処組織の名称。魔導省の内部組織として存在。警察や自衛隊の入隊検査で素養を持つ人間が選別されて配属される。祓部のデータベースへのアクセス権を持ち調査プロセスで圧倒的に有利だ。怪異の存在を一般市民から秘匿し社会の安定を維持する役割も担う。<div class="gloss-related">関連：魔導省、素養検査</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="謎の組織 怪異兵器 素養争奪">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">謎の組織</span><span class="gloss-q">？</span>
+        <span class="gloss-cat">組織</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異を意図的に利用している組織が存在するという情報がある。表向きは合法的な宗教法人または福祉団体として社会に存在しているとされる。公的機関は最高危険指定組織として分類しているが全容は把握できていない。「あなたの体験は本物だ」という言葉で引き寄せるという話がある。関わる場合は最大限の注意が必要だ。<div class="gloss-related">関連：怪異兵器、素養争奪</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="禁足地 封印 定着型 土地型">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">禁足地（きんそくち）</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">場所</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">定着型怪異が発生した土地や、何らかの理由で封印が必要とされた土地に設定される立入制限区域。公的機関が封鎖して管理するケースが多い。神代から存在するものから近代に指定されたものまで様々だ。封印状態が劣化すると新たな怪異事件の引き金になる。三日月旅団のような専門集団が周辺監視を担うこともある。<div class="gloss-related">関連：封印、定着型怪異</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第五章：記録事件</span></div>
+
+    <div class="gloss-entry" data-keywords="鵺ヶ原事変 1867年 特級 封印">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">鵺ヶ原事変（ぬえがはらじへん）</span>
+        <span class="gloss-cat">記録事件 / 1867年</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">近代初の大規模怪異事件として記録されている。急速な都市化と近代化への不安が集合的な信念として臨界を超え旧市街地一帯に特級相当の怪異が出現した。当時の技術では対処不能であり専門家集団が緊急招集されて封印処理が行われた。被害規模と怪異の詳細は現在も最高機密。鵺ヶ原の地名は現在の地図に存在しない。後の魔法安全基準制定のきっかけになった重要事変だ。<div class="gloss-related">関連：封印、禁足地、安全基準</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="白銀の廃線事件 2034年 無所属 傭兵 祓部 協力">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">白銀の廃線事件（しろがねのはいせんじけん）</span>
+        <span class="gloss-cat">記録事件 / 2034年</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">廃線になった地下鉄路線全体に定着型の怪異が発生した大規模事案。特級相当の存在強度を持ちながら丙種という異例の組み合わせだった。公的機関・傭兵・無所属が同時期に現場入りし三者が初めて本格的に協力して封印処理を行った事例だ。封印は現在も維持されており定期的な状態確認が続いている。この事案で協力した討伐者たちの一部が現在の無所属コミュニティの核になっている。<div class="gloss-related">関連：定着型怪異、封印、三者協力</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="怪異核素材 魔導具 侵食 闇市場">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">怪異核素材の魔導具</span><span class="gloss-q">？</span>
+        <span class="gloss-cat">装備</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の核を素材として組み込んだ魔導具。合法的な流通経路は存在しない。通常の魔導具では不可能な効果を発揮するとされているが使用者に何らかの代償が生じるという情報がある。2017年頃から闇市場で流通が確認されている。製造者と流通経路の全容は現在も不明だ。鴉羽技研が取り扱いを行っているとされる。関わることは推奨しない。<div class="gloss-related">関連：核、侵食、闇市場、鴉羽技研</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ 15 記録事件 ══════════ -->
+<section class="page-section" id="incidents">
+  <div class="section-eyebrow">15 — Recorded Incidents</div>
+  <h2 class="section-title">記録事件一覧 <span class="section-title-sub">INCIDENTS</span></h2>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1867</div>
+      <div class="incident-name">鵺ヶ原事変（ぬえがはらじへん）</div>
+      <span class="incident-badge" style="color:var(--red);">最高機密</span>
+    </div>
+    <div class="incident-body">近代初の大規模怪異事件。旧市街地一帯に特級相当の怪異が出現。封印処理で対処。鵺ヶ原の地名は現在の地図に存在しない。魔法安全基準制定のきっかけになった重要事変。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1931</div>
+      <div class="incident-name">白鴉事件（しろからすじけん）</div>
+    </div>
+    <div class="incident-body">大都市の地下工事中に封印されていた古い怪異の核が偶発的に破損。一級甲種相当の怪異が解放された。公式発表はガス管爆発事故。地下開発における怪異リスク評価が義務化されるきっかけになった。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1947</div>
+      <div class="incident-name">終戦後怪異爆発期</div>
+    </div>
+    <div class="incident-body">戦争による大規模な死と恐怖・悲嘆が爆発的に拡散した時期。各地で新旧の怪異が同時多発的に発生。現在も循環型として繰り返し出現するものが複数ある。三段階討伐プロセスの原型が生まれた。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1985</div>
+      <div class="incident-name">御霊崩し事件（みたまくずしじけん）</div>
+    </div>
+    <div class="incident-body">長年にわたって地域の守り神として信仰されてきた神社の御神体が再開発による取り壊しを機に怪異化した事件。神が怪異に転換した事例として語られている。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1996</div>
+      <div class="incident-name">深夜廻り怪異の初出記録</div>
+    </div>
+    <div class="incident-body">インターネット上で広まった都市伝説から発生した最初の記録的な新型怪異。インターネット発生源怪異専用の調査・解明プロセスを策定するきっかけになった。現在も循環型として断続的に出現。信念密度は二級相当まで成長している。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2013</div>
+      <div class="incident-name">霧島事案（きりしまじあん）</div>
+    </div>
+    <div class="incident-body">傭兵集団が公的機関より先に大規模怪異を独自討伐した事案。管轄争いが表面化した最初の大規模事案。暫定的な規制フレームワークが策定されたが実効性は低い。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2023</div>
+      <div class="incident-name">素養持ち子供の連続失踪事件</div>
+      <span class="incident-badge" style="color:var(--red);">？未解決</span>
+    </div>
+    <div class="incident-body">素養検査直後の子供が相次いで失踪した事件。謎の組織との関連が疑われているが証拠は不明だ。素養持ちの子供を狙った何者かが社会に潜んでいるという認識が討伐者コミュニティに広まるきっかけになった。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2028</div>
+      <div class="incident-name">第一次怪異兵器使用事案</div>
+      <span class="incident-badge" style="color:var(--red);">？真相不明</span>
+    </div>
+    <div class="incident-body">謎の組織が都市部で怪異を意図的に放流したとされる事案。三級乙種の怪異が繁華街に放たれ複数の被害者が出た。怪異を意図的に兵器として使う組織の存在を討伐者コミュニティに強く印象づけた事案だ。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2034</div>
+      <div class="incident-name">白銀の廃線事件（しろがねのはいせんじけん）</div>
+      <span class="incident-badge" style="color:var(--gold);">★ 重要</span>
+    </div>
+    <div class="incident-body">廃線全体に特級丙種の定着型怪異が発生。公的機関・傭兵・無所属が初めて本格的に協力して封印処理を行った事例。封印は現在も維持されており定期的な状態確認が続いている。この事件が現在の無所属コミュニティの核を作った。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2037</div>
+      <div class="incident-name">機動兵器と怪異の相互作用事案</div>
+    </div>
+    <div class="incident-body">大型の戦闘用搭乗型が三級甲種の怪異と長時間交戦した結果機体の魔導具システムが暴走した最初の記録事例。新たな怪異を生みながら都市部を移動するという事態が発生した。機動兵器が怪異と化する可能性を示した事案として語り継がれている。</div>
+  </div>
+</section>
+
+<!-- ══════════ 16 生存原則 ══════════ -->
+<section class="page-section" id="survival" style="border-bottom:none;">
+  <div class="section-eyebrow">16 — Survival Principles</div>
+  <h2 class="section-title">この世界で生き延びるための原則</h2>
+
+  <ul class="rule-list">
+    <li><span class="rule-bullet">◆ 01</span>調査なしの討伐は自殺行為だ</li>
+    <li><span class="rule-bullet">◆ 02</span>解明なしの討伐は自殺行為だ</li>
+    <li><span class="rule-bullet">◆ 03</span>ルールを破れば破るほど逃げられなくなる</li>
+    <li><span class="rule-bullet">◆ 04</span>強さだけで解決できる怪異は存在しない</li>
+    <li><span class="rule-bullet">◆ 05</span>知識が命を救う。無知が人を殺す</li>
+    <li><span class="rule-bullet">◆ 06</span>話しても誰も信じてくれない。それがこの仕事だ</li>
+  </ul>
+
+  <div class="blockquote">
+    怪異と神の関係について、討伐者の間ではこういう話がある。<br>
+    「恐れられているか信仰されているかの違いだけだ。」<br>
+    <span style="font-size:0.8rem;color:var(--text-mute);">— 真偽は不明だ。ただし神社の御神体が怪異化したという記録が残っていることは事実だ。</span>
+  </div>
+
+  <div style="text-align:center;padding:4rem 0 2rem;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--text-mute);line-height:2.5;">
+    <div style="font-size:8px;color:var(--text-mute);letter-spacing:0.3em;margin-bottom:0.2rem;font-family:'Shippori Mincho B1',serif;">電脳怪異譚</div>
+    <div style="font-size:1.1rem;color:var(--gold);letter-spacing:0.2em;margin-bottom:1rem;font-family:'IBM Plex Mono',monospace;">KAI-I//KILL</div>
+    <div>PLAYER HANDBOOK — ver.1.0</div>
+    <div style="color:var(--border);">────────────────────────</div>
+    <div>このバイブルに書かれていないことが、この世界にはまだある。</div>
+    <div style="margin-top:0.5rem;font-size:8px;opacity:0.4;">PLAYER DOCUMENT — AUTHORIZED DISTRIBUTION ONLY</div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Sidebar toggle
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// Tab system
+function switchTab(e, group, id) {
+  document.querySelectorAll('#' + group + ' .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#' + group + ' .tab-content').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Handle tab groups correctly
+function switchTab(e, group, id) {
+  const section = e.target.closest('.page-section');
+  section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Glossary toggle
+function toggleGloss(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+// Glossary search
+function filterGlossary() {
+  const q = document.getElementById('glossarySearch').value.toLowerCase();
+  document.querySelectorAll('.gloss-entry').forEach(entry => {
+    const keywords = entry.getAttribute('data-keywords') || '';
+    const text = (entry.querySelector('.gloss-keyword').textContent + ' ' + keywords).toLowerCase();
+    entry.style.display = q === '' || text.includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('.sec-divider').forEach(div => {
+    div.style.display = '';
+  });
+}
+
+// Active nav link highlight on scroll
+const sections = document.querySelectorAll('.page-section, .hero');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function updateActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 100;
+    if (window.scrollY >= top) current = section.id || '';
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+</script>
+</body>
+</html>
