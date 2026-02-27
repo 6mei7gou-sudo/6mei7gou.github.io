@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キャラクター作成・資料 — KAI-I//KILL 討伐者ハンドブック</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #07080f;
+  --bg2:       #0c0d16;
+  --bg3:       #10111c;
+  --surface:   #161724;
+  --surface2:  #1c1d2e;
+  --border:    #252640;
+  --border2:   #2e2f50;
+  --gold:      #c4a35a;
+  --gold-dim:  #8a6f3a;
+  --purple:    #8b6daa;
+  --teal:      #4a8fa3;
+  --red:       #c45c5c;
+  --green:     #5a9e70;
+  --text:      #d4d0c8;
+  --text-dim:  #9e9a92;
+  --text-mute: #5e5c58;
+  --glow:      rgba(196,163,90,0.12);
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; font-size:15px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Serif JP', serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   AMBIENT / NOISE
+═══════════════════════════════════════════ */
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.015) 3px,rgba(0,0,0,0.015) 4px);
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR NAV
+═══════════════════════════════════════════ */
+.sidebar {
+  position:fixed; top:0; left:0; bottom:0;
+  width:220px; z-index:200;
+  background: rgba(7,8,15,0.97);
+  border-right: 1px solid var(--border);
+  display:flex; flex-direction:column;
+  overflow-y:auto;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  padding:1.8rem 1.5rem 1.2rem;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo-main {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1rem; font-weight:700;
+  color:#f0ece2; letter-spacing:0.08em;
+  line-height:1.3;
+}
+.sidebar-logo-sub {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.25em;
+  color:var(--text-mute); margin-top:0.3rem;
+  text-transform:uppercase;
+}
+.sidebar-logo-ver {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px; color:var(--gold);
+  margin-top:0.4rem; letter-spacing:0.15em;
+}
+
+.nav-section {
+  padding:0.8rem 0 0.4rem;
+}
+.nav-section-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px; letter-spacing:0.3em;
+  color:var(--text-mute); text-transform:uppercase;
+  padding:0.3rem 1.5rem 0.4rem;
+}
+.nav-link {
+  display:flex; align-items:center; gap:0.6rem;
+  padding:0.45rem 1.5rem;
+  font-size:0.82rem; color:var(--text-dim);
+  text-decoration:none; letter-spacing:0.03em;
+  transition: all 0.15s;
+  border-left:2px solid transparent;
+  cursor:pointer;
+}
+.nav-link:hover, .nav-link.active {
+  color:var(--gold); border-left-color:var(--gold);
+  background:rgba(196,163,90,0.05);
+}
+.nav-link-icon {
+  font-size:0.8rem; flex-shrink:0; width:16px;
+}
+.nav-divider { height:1px; background:var(--border); margin:0.5rem 1rem; }
+
+/* ═══════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════ */
+.main-content {
+  margin-left:220px;
+  min-height:100vh;
+  position:relative; z-index:1;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center; padding:4rem 3rem;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, rgba(139,109,170,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 70%, rgba(196,163,90,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 25%, rgba(74,143,163,0.06) 0%, transparent 60%);
+}
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(196,163,90,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,163,90,0.03) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center, black 20%, transparent 75%);
+}
+.hero-emblem {
+  width:120px; height:120px;
+  margin-bottom:3rem;
+  animation:float 8s ease-in-out infinite;
+  filter:drop-shadow(0 0 30px rgba(196,163,90,0.3));
+}
+@keyframes float {
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-10px) rotate(2deg)}
+}
+.hero-badge {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.4em;
+  color:var(--gold); border:1px solid rgba(196,163,90,0.3);
+  padding:0.35rem 1.2rem; margin-bottom:2rem;
+  text-transform:uppercase;
+  animation:fadeUp 1s ease both;
+}
+.hero-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:800; letter-spacing:0.15em;
+  color:#f4f0e8;
+  text-shadow:0 0 80px rgba(196,163,90,0.2);
+  animation:fadeUp 1.2s ease 0.15s both;
+  line-height:1.1;
+}
+.hero-title-en {
+  display:block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(0.65rem,1.5vw,0.8rem);
+  font-weight:300; letter-spacing:0.5em;
+  color:var(--text-mute); margin-top:0.6rem;
+}
+.hero-desc {
+  max-width:520px; margin:2.5rem auto 0;
+  font-size:0.88rem; color:var(--text-dim); line-height:2.2;
+  animation:fadeUp 1.5s ease 0.3s both;
+}
+.hero-scroll {
+  position:absolute; bottom:2.5rem; left:50%;
+  transform:translateX(-50%);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.35em; color:var(--text-mute);
+  animation:pulse 2.5s ease-in-out 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════════
+   PAGE SECTION
+═══════════════════════════════════════════ */
+.page-section {
+  padding:5rem 4rem 4rem;
+  border-bottom:1px solid var(--border);
+  max-width:1000px;
+}
+.page-section:last-child { border-bottom:none; }
+
+.section-eyebrow {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.35em;
+  color:var(--gold); text-transform:uppercase;
+  margin-bottom:0.8rem;
+}
+.section-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:clamp(1.5rem,3vw,2.1rem);
+  font-weight:700; color:#f0ece2;
+  letter-spacing:0.08em; line-height:1.2;
+  margin-bottom:2rem;
+}
+.section-title-sub {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px; color:var(--text-mute);
+  letter-spacing:0.2em; margin-left:0.8rem;
+}
+.section-lead {
+  font-size:0.92rem; color:var(--text-dim);
+  line-height:2.2; max-width:720px;
+  margin-bottom:2.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════════ */
+
+/* Alert / Info boxes */
+.box {
+  padding:1.2rem 1.6rem;
+  margin:2rem 0; font-size:0.85rem;
+  color:var(--text-dim); line-height:2;
+  border-radius:1px;
+}
+.box-danger {
+  background:rgba(196,92,92,0.07);
+  border:1px solid rgba(196,92,92,0.25);
+  border-left:3px solid var(--red);
+}
+.box-gold {
+  background:rgba(196,163,90,0.05);
+  border:1px solid rgba(196,163,90,0.2);
+  border-left:3px solid var(--gold);
+}
+.box-purple {
+  background:rgba(139,109,170,0.06);
+  border:1px solid rgba(139,109,170,0.2);
+  border-left:3px solid var(--purple);
+}
+.box-teal {
+  background:rgba(74,143,163,0.06);
+  border:1px solid rgba(74,143,163,0.2);
+  border-left:3px solid var(--teal);
+}
+.box strong { font-weight:600; }
+.box-danger strong { color:var(--red); }
+.box-gold strong { color:var(--gold); }
+.box-purple strong { color:var(--purple); }
+.box-teal strong { color:var(--teal); }
+
+/* Data table */
+.data-table {
+  width:100%; border-collapse:collapse;
+  margin:1.5rem 0; font-size:0.83rem;
+}
+.data-table th {
+  background:var(--surface);
+  color:var(--gold);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.2em;
+  font-weight:400; text-align:left;
+  padding:0.8rem 1.1rem;
+  border:1px solid var(--border);
+  text-transform:uppercase;
+}
+.data-table td {
+  padding:0.85rem 1.1rem;
+  border:1px solid var(--border);
+  color:var(--text-dim); vertical-align:top;
+  line-height:1.9;
+}
+.data-table tr:hover td { background:rgba(196,163,90,0.025); }
+.data-table td:first-child { color:var(--text); font-weight:500; }
+
+/* Grid cards */
+.card-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.5px; background:var(--border);
+  margin:2rem 0;
+}
+.card {
+  background:var(--surface);
+  padding:1.8rem;
+  transition:background 0.2s;
+}
+.card:hover { background:var(--surface2); }
+.card-eyebrow {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.25em;
+  color:var(--purple); text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.card-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.05rem; font-weight:600;
+  color:#e8e4dc; margin-bottom:0.7rem;
+  letter-spacing:0.04em;
+}
+.card-body {
+  font-size:0.82rem; color:var(--text-dim); line-height:1.95;
+}
+
+/* Two-column grid */
+.two-col {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.col-block {
+  background:var(--bg3); padding:2rem 2rem 1.8rem;
+}
+.col-label {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px; letter-spacing:0.3em;
+  color:var(--teal); text-transform:uppercase; margin-bottom:0.8rem;
+}
+.col-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.1rem; font-weight:600;
+  color:#e8e4dc; margin-bottom:0.8rem;
+}
+.col-body {
+  font-size:0.82rem; color:var(--text-dim); line-height:2;
+}
+
+/* Process flow */
+.process-row {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.process-step {
+  background:var(--bg3); padding:2rem 1.8rem;
+  position:relative;
+}
+.process-step::after {
+  content:'→'; position:absolute; right:-0.55rem; top:50%;
+  transform:translateY(-50%); color:var(--gold); font-size:1.1rem; z-index:1;
+}
+.process-step:last-child::after { display:none; }
+.process-n {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:2.5rem; font-weight:300;
+  color:rgba(196,163,90,0.2); line-height:1; margin-bottom:0.4rem;
+}
+.process-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1rem; font-weight:600; color:#e0dcd4; margin-bottom:0.5rem;
+}
+.process-body {
+  font-size:0.8rem; color:var(--text-dim); line-height:1.95;
+}
+.process-warn {
+  font-size:0.78rem; color:var(--red); margin-top:0.7rem; line-height:1.6;
+}
+
+/* Rank badges */
+.rank {
+  display:inline-block; font-family:'IBM Plex Mono',monospace;
+  font-size:11px; padding:0.1rem 0.55rem; border-radius:1px; letter-spacing:0.05em;
+}
+.r-toku { background:rgba(196,92,92,0.18); color:#e07070; border:1px solid rgba(196,92,92,0.4); }
+.r-1 { background:rgba(196,163,90,0.15); color:var(--gold); border:1px solid rgba(196,163,90,0.35); }
+.r-2 { background:rgba(139,109,170,0.15); color:#b090d0; border:1px solid rgba(139,109,170,0.35); }
+.r-3 { background:rgba(74,143,163,0.15); color:#78b8d0; border:1px solid rgba(74,143,163,0.35); }
+.r-4 { background:rgba(90,158,112,0.15); color:#85c095; border:1px solid rgba(90,158,112,0.35); }
+.r-5 { background:rgba(80,80,100,0.18); color:#8888a8; border:1px solid rgba(80,80,100,0.4); }
+
+/* Subheading */
+.subheading {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.05rem; font-weight:600; color:#e0dcd4;
+  letter-spacing:0.07em; margin:2.5rem 0 1rem;
+  padding-bottom:0.5rem;
+  border-bottom:1px solid var(--border);
+}
+
+/* Quote */
+.blockquote {
+  border-left:2px solid rgba(196,163,90,0.35);
+  padding:1.4rem 2rem; margin:2.5rem 0;
+  font-size:0.92rem; color:var(--text-dim); line-height:2.2;
+  font-style:italic; position:relative;
+}
+.blockquote::before {
+  content:'"';
+  position:absolute; top:-0.5rem; left:1.5rem;
+  font-size:3.5rem; color:rgba(196,163,90,0.12);
+  font-family:Georgia,serif; line-height:1;
+}
+
+/* Tag pills */
+.tag {
+  display:inline-block; font-size:10px;
+  padding:0.1rem 0.55rem; border-radius:2px; margin:0.15rem;
+  font-family:'IBM Plex Mono',monospace; letter-spacing:0.05em;
+}
+.tag-plus { background:rgba(74,143,163,0.15); color:var(--teal); border:1px solid rgba(74,143,163,0.3); }
+.tag-minus { background:rgba(196,92,92,0.1); color:#c07070; border:1px solid rgba(196,92,92,0.25); }
+.tag-neutral { background:rgba(196,163,90,0.1); color:var(--gold); border:1px solid rgba(196,163,90,0.25); }
+
+/* Equipment rows */
+.equip-list { display:grid; gap:1.5px; background:var(--border); margin:2rem 0; }
+.equip-item {
+  background:var(--bg3); padding:1.4rem 2rem;
+  display:grid; grid-template-columns:170px 1fr 80px 90px; gap:1.5rem; align-items:center;
+}
+.equip-name {
+  font-family:'Shippori Mincho B1',serif; font-weight:600;
+  color:#e0dcd4; font-size:0.95rem;
+}
+.equip-name-en {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.15em; color:var(--text-mute); display:block; margin-top:0.2rem;
+}
+.equip-desc { font-size:0.8rem; color:var(--text-dim); line-height:1.9; }
+.risk-dots { display:flex; gap:3px; align-items:center; justify-content:flex-end; }
+.dot { width:7px; height:7px; border-radius:50%; }
+.dot-on { background:var(--red); }
+.dot-off { background:var(--border2); }
+.ease-txt { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); text-align:right; }
+.ease-good { color:var(--teal); }
+.ease-bad { color:var(--red); }
+
+/* Faction cards */
+.faction-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.faction-card {
+  background:var(--bg3); padding:2rem 1.8rem;
+}
+.faction-icon { font-size:2rem; display:block; margin-bottom:1rem; }
+.faction-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.1rem; font-weight:700; color:#e8e4dc; margin-bottom:0.25rem;
+}
+.faction-name-en {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.22em; color:var(--text-mute); display:block; margin-bottom:1rem;
+}
+.faction-body { font-size:0.8rem; color:var(--text-dim); line-height:1.95; margin-bottom:0.8rem; }
+
+/* Character creation axes */
+.char-axes {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1.5px; background:var(--border); margin:2rem 0;
+}
+.char-axis {
+  background:var(--bg3); padding:1.8rem;
+}
+.axis-num {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px; color:var(--purple); letter-spacing:0.12em; margin-bottom:0.5rem;
+}
+.axis-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:0.95rem; font-weight:600; color:#e0dcd4; margin-bottom:0.8rem;
+}
+.axis-options { display:flex; flex-direction:column; gap:0.4rem; }
+.axis-opt {
+  font-size:0.78rem; color:var(--text-dim); line-height:1.7;
+  background:rgba(196,163,90,0.04); border:1px solid rgba(196,163,90,0.1);
+  padding:0.45rem 0.7rem; border-radius:1px;
+}
+.axis-opt small { display:block; font-size:0.7rem; color:var(--text-mute); margin-top:0.1rem; }
+
+/* Survival rules */
+.rule-list { list-style:none; display:grid; gap:1.5px; background:var(--border); margin:2rem 0; }
+.rule-item {
+  background:var(--bg3); padding:1.1rem 1.8rem;
+  display:flex; align-items:flex-start; gap:1rem;
+  font-size:0.88rem; color:var(--text-dim); line-height:1.9;
+}
+.rule-bullet {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  color:var(--red); flex-shrink:0; margin-top:0.3rem; letter-spacing:0.05em;
+}
+
+/* Timeline */
+.timeline { margin:2rem 0; position:relative; }
+.timeline::before {
+  content:''; position:absolute; left:90px; top:0; bottom:0;
+  width:1px; background:var(--border);
+}
+.tl-item {
+  display:flex; gap:2rem; padding:1.3rem 0; position:relative;
+}
+.tl-date {
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  color:var(--gold); width:80px; flex-shrink:0;
+  text-align:right; padding-top:0.15rem; letter-spacing:0.04em;
+}
+.tl-dot {
+  width:9px; height:9px; border-radius:50%;
+  background:var(--border2); border:1px solid var(--gold);
+  flex-shrink:0; margin-top:0.3rem; z-index:1;
+}
+.tl-dot.imp {
+  background:var(--gold); box-shadow:0 0 10px rgba(196,163,90,0.5);
+}
+.tl-content { flex:1; font-size:0.82rem; color:var(--text-dim); line-height:1.9; }
+.tl-title { font-weight:500; color:var(--text); margin-bottom:0.2rem; font-size:0.88rem; }
+
+/* Organization detail */
+.org-detail {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:1.5rem 0; overflow:hidden;
+}
+.org-header {
+  background:var(--surface); padding:1.4rem 2rem;
+  display:flex; align-items:baseline; gap:1.5rem;
+  border-bottom:1px solid var(--border);
+}
+.org-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.15rem; font-weight:700; color:#e8e4dc;
+}
+.org-tag {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.2em; color:var(--text-mute);
+}
+.org-body { padding:1.6rem 2rem; }
+.org-body p { font-size:0.82rem; color:var(--text-dim); line-height:2; margin-bottom:0.8rem; }
+.org-body p:last-child { margin-bottom:0; }
+
+/* Character profiles */
+.char-profile {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:2rem 0; overflow:hidden;
+}
+.char-header {
+  background:var(--surface); padding:1.5rem 2rem;
+  border-bottom:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:1rem; align-items:baseline;
+}
+.char-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.2rem; font-weight:700; color:#f0ece2;
+}
+.char-alias {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px; color:var(--gold); letter-spacing:0.1em;
+}
+.char-meta { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.3rem; width:100%; }
+.char-meta-item {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.15em; color:var(--text-mute);
+  background:var(--bg3); border:1px solid var(--border);
+  padding:0.2rem 0.6rem;
+}
+.char-body { padding:1.8rem 2rem; }
+.char-section { margin-bottom:1.2rem; }
+.char-section-title {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.25em; color:var(--teal);
+  text-transform:uppercase; margin-bottom:0.5rem;
+}
+.char-section-body {
+  font-size:0.82rem; color:var(--text-dim); line-height:2;
+}
+.char-drama {
+  background:var(--surface); padding:1rem 1.4rem; margin-top:0.5rem;
+}
+.char-drama-title {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.25em; color:var(--purple); text-transform:uppercase; margin-bottom:0.5rem;
+}
+.char-drama ul { list-style:none; }
+.char-drama li {
+  font-size:0.79rem; color:var(--text-dim); line-height:1.9;
+  padding-left:1.2em; position:relative;
+}
+.char-drama li::before {
+  content:'—'; position:absolute; left:0; color:var(--text-mute);
+}
+.char-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); margin:2rem 0; }
+
+/* Glossary */
+.gloss-entry {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:1rem 0; overflow:hidden;
+}
+.gloss-header {
+  background:var(--surface); padding:0.9rem 1.5rem;
+  display:flex; align-items:center; gap:0.8rem;
+  cursor:pointer; border-bottom:1px solid transparent;
+  transition:border-color 0.2s;
+}
+.gloss-header.open { border-bottom-color:var(--border); }
+.gloss-keyword {
+  font-family:'Shippori Mincho B1',serif; font-size:1rem;
+  font-weight:700; color:#e8e4dc; letter-spacing:0.04em;
+}
+.gloss-star {
+  font-size:11px; color:var(--gold); flex-shrink:0;
+}
+.gloss-q {
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  color:var(--red); flex-shrink:0; letter-spacing:0.1em;
+}
+.gloss-cat {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.2em; color:var(--text-mute); margin-left:auto;
+}
+.gloss-chevron {
+  font-size:10px; color:var(--text-mute); margin-left:0.5rem;
+  transition:transform 0.2s;
+}
+.gloss-header.open .gloss-chevron { transform:rotate(180deg); }
+.gloss-body {
+  display:none; padding:1.2rem 1.5rem;
+  font-size:0.82rem; color:var(--text-dim); line-height:2;
+}
+.gloss-body.open { display:block; }
+.gloss-related {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  color:var(--text-mute); margin-top:0.6rem; letter-spacing:0.05em;
+}
+
+/* Search bar */
+.search-bar {
+  position:relative; margin-bottom:2rem;
+}
+.search-input {
+  width:100%; padding:0.9rem 1.2rem 0.9rem 3rem;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:2px; color:var(--text); font-family:'Noto Serif JP',serif;
+  font-size:0.88rem; outline:none; transition:border-color 0.2s;
+}
+.search-input:focus { border-color:var(--gold); }
+.search-input::placeholder { color:var(--text-mute); }
+.search-icon {
+  position:absolute; left:1rem; top:50%; transform:translateY(-50%);
+  color:var(--text-mute); font-size:0.9rem;
+}
+
+/* Corp cards */
+.corp-card {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:2rem 0; overflow:hidden;
+}
+.corp-header {
+  padding:1.5rem 2rem; border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.corp-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.3rem; font-weight:700; color:#f0ece2; margin-bottom:0.3rem;
+}
+.corp-type {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.22em; color:var(--text-mute);
+}
+.corp-body { padding:1.8rem 2rem; }
+.corp-body p { font-size:0.82rem; color:var(--text-dim); line-height:2; margin-bottom:1rem; }
+.corp-section-title {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.25em; color:var(--gold); text-transform:uppercase;
+  margin:1.2rem 0 0.5rem;
+}
+.product-list { list-style:none; display:grid; gap:0.6rem; }
+.product-item {
+  font-size:0.8rem; color:var(--text-dim); line-height:1.8;
+  background:var(--surface); border:1px solid var(--border);
+  padding:0.7rem 1rem; border-left:2px solid var(--gold-dim);
+}
+.product-name { font-weight:500; color:var(--text); display:block; margin-bottom:0.2rem; }
+
+/* Tab system for groups */
+.tab-bar {
+  display:flex; gap:0; border-bottom:1px solid var(--border);
+  margin-bottom:2rem;
+}
+.tab-btn {
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  letter-spacing:0.15em; color:var(--text-mute);
+  padding:0.7rem 1.5rem; cursor:pointer; border:none;
+  background:none; border-bottom:2px solid transparent;
+  transition:all 0.2s; text-transform:uppercase;
+}
+.tab-btn:hover { color:var(--gold); }
+.tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Incident cards */
+.incident {
+  background:var(--bg3); border:1px solid var(--border);
+  margin:1.2rem 0; padding:1.4rem 1.8rem;
+}
+.incident-header {
+  display:flex; align-items:center; gap:1rem; margin-bottom:0.6rem;
+}
+.incident-year {
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  color:var(--gold); flex-shrink:0; width:60px; letter-spacing:0.05em;
+}
+.incident-name {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:0.95rem; font-weight:600; color:#e0dcd4;
+}
+.incident-badge {
+  font-family:'IBM Plex Mono',monospace; font-size:8px;
+  letter-spacing:0.2em; margin-left:auto; flex-shrink:0;
+}
+.incident-body { font-size:0.8rem; color:var(--text-dim); line-height:2; }
+
+/* Mobile toggle */
+.sidebar-toggle {
+  display:none; position:fixed; top:1rem; left:1rem; z-index:300;
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--text-dim); padding:0.5rem 0.8rem; cursor:pointer;
+  font-size:1rem;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar { transform:translateX(-100%); }
+  .sidebar.open { transform:translateX(0); }
+  .main-content { margin-left:0; }
+  .sidebar-toggle { display:block; }
+  .page-section { padding:3rem 1.5rem; }
+  .faction-grid { grid-template-columns:1fr; }
+  .two-col { grid-template-columns:1fr; }
+  .process-row { grid-template-columns:1fr; }
+  .process-step::after { display:none; }
+  .equip-item { grid-template-columns:1fr 1fr; }
+  .equip-name { grid-column:1/-1; }
+  .char-grid { grid-template-columns:1fr; }
+  .timeline::before { left:55px; }
+  .tl-date { width:44px; font-size:9px; }
+}
+
+/* Highlight */
+.hl { color:var(--gold); font-weight:500; }
+.hl2 { color:var(--purple); }
+.hl3 { color:var(--teal); }
+.hl-r { color:var(--red); }
+
+/* Section divider */
+.sec-divider {
+  display:flex; align-items:center; gap:1rem;
+  margin:3rem 0 1.5rem; color:var(--text-mute);
+}
+.sec-divider::before,.sec-divider::after {
+  content:''; flex:1; height:1px; background:var(--border);
+}
+.sec-divider span {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.25em; text-transform:uppercase; white-space:nowrap;
+}
+
+/* Page banner (non-index) */
+.page-banner {
+  min-height:40vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:4rem 2rem 3rem;
+  border-bottom:1px solid var(--border);
+  background:radial-gradient(ellipse 60% 80% at 50% 50%, rgba(139,109,170,0.07) 0%, transparent 70%);
+  position:relative;
+}
+.page-banner::before {
+  content:''; position:absolute; inset:0;
+  background-image:linear-gradient(rgba(196,163,90,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(196,163,90,0.02) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center, black 20%, transparent 75%);
+}
+.page-banner-inner { position:relative; }
+.page-banner-label {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.4em; color:var(--gold);
+  border:1px solid rgba(196,163,90,0.3); padding:0.35rem 1.2rem;
+  margin-bottom:1.5rem; display:inline-block; text-transform:uppercase;
+}
+.page-banner-title {
+  font-family:'Shippori Mincho B1',serif;
+  font-size:clamp(1.6rem,4vw,2.8rem); font-weight:700;
+  color:#f4f0e8; letter-spacing:0.12em; margin-bottom:0.6rem;
+}
+.page-banner-sub {
+  font-family:'IBM Plex Mono',monospace; font-size:9px;
+  letter-spacing:0.2em; color:var(--text-mute);
+}
+</style>
+</head>
+<body>
+<!-- Mobile toggle -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-main"><span style="font-family:'Shippori Mincho B1',serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--text-mute);display:block;margin-bottom:0.2rem;">電脳怪異譚</span><span style="font-family:'IBM Plex Mono',monospace;font-size:1rem;letter-spacing:0.1em;color:#f0ece2;">KAI-I//KILL</span></div>
+    <div class="sidebar-logo-sub">討伐者ハンドブック</div>
+    <div class="sidebar-logo-ver">VER. 1.0 — PLAYER DOC</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">ページ一覧</div>
+    <a class="nav-link " href="index.html"><span class="nav-link-icon">◉</span>導入・世界概要</a>
+    <a class="nav-link " href="world.html"><span class="nav-link-icon">⚠</span>怪異・能力・装備</a>
+    <a class="nav-link " href="factions.html"><span class="nav-link-icon">⚔</span>組織・人物</a>
+    <a class="nav-link " href="companies.html"><span class="nav-link-icon">▤</span>企業詳細</a>
+    <a class="nav-link active" href="reference.html"><span class="nav-link-icon">≡</span>資料・参照</a>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">導入</div>
+    <a class="nav-link" href="index.html#world"><span class="nav-link-icon">◉</span>世界概要</a>
+    <a class="nav-link" href="index.html#history"><span class="nav-link-icon">◈</span>世界年表</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">怪異システム</div>
+    <a class="nav-link" href="world.html#kaijin"><span class="nav-link-icon">⚠</span>怪異とは</a>
+    <a class="nav-link" href="world.html#grades"><span class="nav-link-icon">▦</span>等級体系</a>
+    <a class="nav-link" href="world.html#process"><span class="nav-link-icon">→</span>討伐プロセス</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">能力・装備</div>
+    <a class="nav-link" href="world.html#ability"><span class="nav-link-icon">◆</span>能力体系</a>
+    <a class="nav-link" href="world.html#equipment"><span class="nav-link-icon">⚙</span>装備分類</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">組織・人物</div>
+    <a class="nav-link" href="factions.html#factions"><span class="nav-link-icon">⛩</span>三種の討伐者</a>
+    <a class="nav-link" href="factions.html#haraebe"><span class="nav-link-icon">◎</span>祓部詳細</a>
+    <a class="nav-link" href="factions.html#mercenaries"><span class="nav-link-icon">⚔</span>傭兵詳細</a>
+    <a class="nav-link" href="factions.html#unaffiliated"><span class="nav-link-icon">◈</span>無所属詳細</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">産業・企業</div>
+    <a class="nav-link" href="companies.html#companies"><span class="nav-link-icon">▤</span>企業詳細</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">参照資料</div>
+    <a class="nav-link" href="reference.html#character"><span class="nav-link-icon">✦</span>キャラクター作成</a>
+    <a class="nav-link" href="reference.html#glossary"><span class="nav-link-icon">≡</span>用語集</a>
+    <a class="nav-link" href="reference.html#incidents"><span class="nav-link-icon">◌</span>記録事件</a>
+    <a class="nav-link" href="reference.html#survival"><span class="nav-link-icon">▲</span>生存原則</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main-content">
+<div class="page-banner">
+  <div class="page-banner-inner">
+    <div class="page-banner-label">PAGE 5 / 5</div>
+    <div class="page-banner-title">キャラクター作成・資料</div>
+    <div class="page-banner-sub">電脳怪異譚 KAI-I//KILL — 討伐者ハンドブック</div>
+  </div>
+</div>
+<!-- ══════════ 13 キャラクター作成 ══════════ -->
+<section class="page-section" id="character">
+  <div class="section-eyebrow">13 — Character Creation</div>
+  <h2 class="section-title">キャラクター作成ガイド <span class="section-title-sub">CHARACTER CREATION</span></h2>
+
+  <p class="section-lead">
+    あなたはこの世界の討伐者だ。以下の五つの軸があなたのキャラクターを決定する。
+  </p>
+
+  <div class="char-axes">
+    <div class="char-axis">
+      <div class="axis-num">AXIS 01</div>
+      <div class="axis-name">所属</div>
+      <div class="axis-options">
+        <div class="axis-opt">⛩ 公的機関（祓部）<small>DB閲覧権。行動制約あり。古い怪異に強い。</small></div>
+        <div class="axis-opt">⚔ 傭兵集団<small>高性能装備・法的制約なし。企業への依存がある。</small></div>
+        <div class="axis-opt">◈ 無所属<small>完全な自由と完全な危険。全勢力から警戒される。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 02</div>
+      <div class="axis-name">覚醒パターン</div>
+      <div class="axis-options">
+        <div class="axis-opt">先天覚醒型<small>生まれつき素養。祓部に多い。安定。</small></div>
+        <div class="axis-opt">ショック覚醒型<small>強烈な体験が引き金。恨みが動機に直結。</small></div>
+        <div class="axis-opt">実験覚醒型<small>強制覚醒・代償大。追われている可能性。</small></div>
+        <div class="axis-opt">接触覚醒型<small>核や素材への接触。侵食リスク伴う。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 03</div>
+      <div class="axis-name">能力スタイル</div>
+      <div class="axis-options">
+        <div class="axis-opt">魔法（チートコード）直接行使<small>高い再現性。怪異を生むリスクと表裏一体。</small></div>
+        <div class="axis-opt">魔導具運用<small>素養不要。安定した出力。企業依存。</small></div>
+        <div class="axis-opt">異能（アプリケーション）<small>制御が難しい。使うたびに何かが変わる可能性。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 04</div>
+      <div class="axis-name">主力装備</div>
+      <div class="axis-options">
+        <div class="axis-opt">武装型<small>扱いやすい。素養不要。リスク低。</small></div>
+        <div class="axis-opt">独立型・半装身型<small>バランス型。中リスク。</small></div>
+        <div class="axis-opt">全装身型<small>高性能・都市伝説化リスク。扱いにくい。</small></div>
+        <div class="axis-opt">搭乗型・戦闘用搭乗型<small>機動力・大型怪異対応。高リスク。</small></div>
+      </div>
+    </div>
+    <div class="char-axis">
+      <div class="axis-num">AXIS 05</div>
+      <div class="axis-name">因縁</div>
+      <div class="axis-options">
+        <div class="axis-opt">何を失ったか</div>
+        <div class="axis-opt">何を追っているか</div>
+        <div class="axis-opt">この世界で戦い続ける理由</div>
+        <div class="axis-opt">組織に入らない理由</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-gold">
+    <strong>重要な問い：</strong> 無所属のキャラクターが最も問われるのは「なぜ組織に入らないのか」だ。組織への不信・過去の傷・自分の力の制御不能・誰かを巻き込みたくない・自由でなければできないことがある。それぞれの理由がキャラクターの行動と選択を規定する。
+  </div>
+
+  <div class="subheading">装備選択の参考</div>
+  <table class="data-table">
+    <thead><tr><th>分類</th><th>主な用途</th><th>怪異発生リスク</th><th>扱いやすさ</th><th>向いている所属</th></tr></thead>
+    <tbody>
+      <tr><td>武装型</td><td>近中距離戦闘・補助</td><td>低</td><td>高い</td><td>全所属</td></tr>
+      <tr><td>独立型</td><td>偵察・支援・包囲</td><td>中</td><td>機体依存</td><td>傭兵・無所属</td></tr>
+      <tr><td>半装身型</td><td>部位強化・中火力</td><td>中</td><td>中程度</td><td>傭兵（カスタム前提）</td></tr>
+      <tr><td>全装身型</td><td>高火力・高防御</td><td>高</td><td>低い（相性次第）</td><td>傭兵・特定の無所属</td></tr>
+      <tr><td>搭乗型</td><td>機動・輸送・制圧</td><td>中</td><td>中程度</td><td>三日月旅団系</td></tr>
+      <tr><td>戦闘用搭乗型</td><td>大型怪異討伐</td><td>非常に高い</td><td>非常に低い</td><td>鉄蟲隊・特殊無所属</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════ 14 用語集 ══════════ -->
+<section class="page-section" id="glossary">
+  <div class="section-eyebrow">14 — Glossary</div>
+  <h2 class="section-title">用語集 <span class="section-title-sub">GLOSSARY</span></h2>
+
+  <p style="font-size:0.82rem;color:var(--text-dim);margin-bottom:1.5rem;">★は討伐者の間で広く共有されている重要用語。？は情報が不完全または真偽不明の用語。クリックして展開。</p>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="glossarySearch" placeholder="用語を検索…" oninput="filterGlossary()">
+  </div>
+
+  <div id="glossaryList">
+
+    <div class="sec-divider"><span>第一章：世界観・基本概念</span></div>
+
+    <div class="gloss-entry" data-keywords="バグ 怪異 チートコード 噂">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">バグ</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">専門家が怪異を指して使う技術的な呼称。噂・言説・集合的信念が臨界点を超えた時に現実へと侵食する現象の総称。魔法をチートコードと呼ぶのに対し怪異はバグと呼ぶ。チートコードが意図的な世界への介入であるのに対しバグは意図せぬ誤作動だ。発生原理・増殖構造・消滅条件の全てがソフトウェアのバグのアナロジーで説明できることから定着した呼称だ。<div class="gloss-related">関連：怪異、チートコード、噂</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="チートコード 魔法 素養 魔導具">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">チートコード</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">魔法を指す技術的な呼称。世界のソースコードに直接介入し現実に超常的な効果をもたらす技術。バグ（怪異）が意図せぬ誤作動であるのに対しチートコードは意図的な書き換えだ。大きな書き換えは大きなバグを生む可能性があるためリスクと表裏一体の関係にある。<div class="gloss-related">関連：魔法、素養、魔導具</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="噂 怪異 信念密度 発生原理">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">噂</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の発生原理の核心をなす概念。噂が広まり信じる人間が増え集合的な信念の密度が閾値を超えると現実にバグとして出力される。オカルトがフィクションとして消費され怪談として語られることも噂の拡散に寄与する。噂を広める行為が意図せず怪異を生む可能性があることを討伐者は常に意識する必要がある。<div class="gloss-related">関連：怪異、信念密度、発生原理</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="信念密度 怪異 等級 存在強度">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">信念密度</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">基本概念</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の本質的な強さを決定する指標。どれだけ多くの人間がどれだけ長く信じてきたかが密度を決める。古い怪異は信念密度が高く強力だが対処法が確立されている場合が多い。SNS時代においては拡散速度が信念密度の蓄積速度に直結するため新しい怪異でも短期間で高密度に達するケースがある。<div class="gloss-related">関連：怪異の等級、存在強度、噂</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第二章：怪異</span></div>
+
+    <div class="gloss-entry" data-keywords="怪異 バグ 核 ルール 信念密度">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">怪異</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">集合的な噂・言説・信念が臨界点を超えた時に現実へと侵食する存在の総称。全ての怪異は核とルールを持つ。核は怪異の存在の中心であり消滅条件の鍵。ルールは怪異が人間を害するための条件だ。怪異は討伐者と一般人を区別しない。知識・訓練・装備の差が生存率を変える。<div class="gloss-related">関連：バグ、核、ルール、信念密度</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="核 怪異 破壊 怪異核素材">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">核</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の存在の中心であり消滅条件の鍵となる部位。基本的には物に宿る。特定の場所・道具・建造物・記録媒体などが核になる。稀に死体や生きた人間に宿る場合があり対処の難度と倫理的複雑さが跳ね上がる。核を無効化・破壊することが怪異消滅の最短経路だが、どこに何が核なのかは調査・解明を経て初めて分かる。<div class="gloss-related">関連：怪異、破壊、怪異核素材</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="ルール 怪異 解明プロセス">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">ルール</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異が人間を害するための条件。怪異はこのルールに従ってしか人間を害せない。ルールを破れば破るほど怪異から逃げられなくなる。ルールは怪異が人を殺す手順であると同時に怪異が人を捕捉・追跡するトリガーでもある。無意識にルールを一度も破らなかった一般人が理由も分からず生還するケースがある。<div class="gloss-related">関連：怪異、解明プロセス</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="改造個体 ルール変質 別個体">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">改造個体</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異分類</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">元の怪異のルールが変質しているが変質割合が50%未満の怪異。既存の知識がある程度通用するが決定的にルールが食い違う一点で驚きが生じる。調査段階では文献との齟齬・被害パターンの不一致・核の所在の混乱・目撃証言の分裂という四つの違和感として現れる。<div class="gloss-related">関連：別個体、ルール変質</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="別個体 ルール変質 改造個体">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">別個体</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">怪異分類</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">元の怪異のルールが変質割合50%以上になった怪異。新しい核と新しいルールを持つ完全に別の怪異として扱う。元の怪異の知識はほぼ役に立たない。最も恐ろしいパターンは改造個体と解明して討伐に挑んだ瞬間に別個体だと判明するケースだ。<div class="gloss-related">関連：改造個体、ルール変質</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第三章：能力</span></div>
+
+    <div class="gloss-entry" data-keywords="素養 魔法 魔力 覚醒パターン">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">素養</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">能力</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">魔力を体内から外に出し世界を書き換える感覚を自力でコントロールできる能力。音感に近い特殊な知覚能力であり完全な天性ではないが訓練だけでも開けない。素養の芽自体は人口の30〜40%に潜在しているが実際に使えるレベルまで開花するかどうかは訓練・環境・きっかけに大きく左右される。<div class="gloss-related">関連：魔法、魔力、覚醒パターン</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="異能 侵食 怪異化 覚醒パターン">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">異能</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">能力</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">魔法とは根本的に異なる能力体系。怪異と同じ発生原理の延長線上にある力であり強烈な体験・執着・信念が人間の内側で生み出す。魔法より直感的に扱えるが制御が難しい。一人一人の異能が固有の形を持つ。使い続けると使用者が怪異に近づいていくリスクがあるとされている。<div class="gloss-related">関連：侵食、怪異化、覚醒パターン</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="侵食 異能 怪異化">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">侵食</span><span class="gloss-q">？</span>
+        <span class="gloss-cat">能力</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">異能や特殊な装備を長期間使用することで使用者が怪異に近づいていく現象。詳細なメカニズムは不明。外見・思考・感情に変質が現れ始めるケースが報告されている。どこまで進むと取り返しがつかなくなるのかは不明だ。侵食が進んだ討伐者が討伐対象になった事例があるという話が無所属の間に流れている。<div class="gloss-related">関連：異能、怪異化</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第四章：組織・場所</span></div>
+
+    <div class="gloss-entry" data-keywords="祓部 魔導省 素養検査">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">祓部（はらえべ）</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">組織</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">公的な怪異対処組織の名称。魔導省の内部組織として存在。警察や自衛隊の入隊検査で素養を持つ人間が選別されて配属される。祓部のデータベースへのアクセス権を持ち調査プロセスで圧倒的に有利だ。怪異の存在を一般市民から秘匿し社会の安定を維持する役割も担う。<div class="gloss-related">関連：魔導省、素養検査</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="謎の組織 怪異兵器 素養争奪">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">謎の組織</span><span class="gloss-q">？</span>
+        <span class="gloss-cat">組織</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異を意図的に利用している組織が存在するという情報がある。表向きは合法的な宗教法人または福祉団体として社会に存在しているとされる。公的機関は最高危険指定組織として分類しているが全容は把握できていない。「あなたの体験は本物だ」という言葉で引き寄せるという話がある。関わる場合は最大限の注意が必要だ。<div class="gloss-related">関連：怪異兵器、素養争奪</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="禁足地 封印 定着型 土地型">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">禁足地（きんそくち）</span><span class="gloss-star">★</span>
+        <span class="gloss-cat">場所</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">定着型怪異が発生した土地や、何らかの理由で封印が必要とされた土地に設定される立入制限区域。公的機関が封鎖して管理するケースが多い。神代から存在するものから近代に指定されたものまで様々だ。封印状態が劣化すると新たな怪異事件の引き金になる。三日月旅団のような専門集団が周辺監視を担うこともある。<div class="gloss-related">関連：封印、定着型怪異</div></div>
+    </div>
+
+    <div class="sec-divider"><span>第五章：記録事件</span></div>
+
+    <div class="gloss-entry" data-keywords="鵺ヶ原事変 1867年 特級 封印">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">鵺ヶ原事変（ぬえがはらじへん）</span>
+        <span class="gloss-cat">記録事件 / 1867年</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">近代初の大規模怪異事件として記録されている。急速な都市化と近代化への不安が集合的な信念として臨界を超え旧市街地一帯に特級相当の怪異が出現した。当時の技術では対処不能であり専門家集団が緊急招集されて封印処理が行われた。被害規模と怪異の詳細は現在も最高機密。鵺ヶ原の地名は現在の地図に存在しない。後の魔法安全基準制定のきっかけになった重要事変だ。<div class="gloss-related">関連：封印、禁足地、安全基準</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="白銀の廃線事件 2034年 無所属 傭兵 祓部 協力">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">白銀の廃線事件（しろがねのはいせんじけん）</span>
+        <span class="gloss-cat">記録事件 / 2034年</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">廃線になった地下鉄路線全体に定着型の怪異が発生した大規模事案。特級相当の存在強度を持ちながら丙種という異例の組み合わせだった。公的機関・傭兵・無所属が同時期に現場入りし三者が初めて本格的に協力して封印処理を行った事例だ。封印は現在も維持されており定期的な状態確認が続いている。この事案で協力した討伐者たちの一部が現在の無所属コミュニティの核になっている。<div class="gloss-related">関連：定着型怪異、封印、三者協力</div></div>
+    </div>
+
+    <div class="gloss-entry" data-keywords="怪異核素材 魔導具 侵食 闇市場">
+      <div class="gloss-header" onclick="toggleGloss(this)">
+        <span class="gloss-keyword">怪異核素材の魔導具</span><span class="gloss-q">？</span>
+        <span class="gloss-cat">装備</span><span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-body">怪異の核を素材として組み込んだ魔導具。合法的な流通経路は存在しない。通常の魔導具では不可能な効果を発揮するとされているが使用者に何らかの代償が生じるという情報がある。2017年頃から闇市場で流通が確認されている。製造者と流通経路の全容は現在も不明だ。鴉羽技研が取り扱いを行っているとされる。関わることは推奨しない。<div class="gloss-related">関連：核、侵食、闇市場、鴉羽技研</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ 15 記録事件 ══════════ -->
+<section class="page-section" id="incidents">
+  <div class="section-eyebrow">15 — Recorded Incidents</div>
+  <h2 class="section-title">記録事件一覧 <span class="section-title-sub">INCIDENTS</span></h2>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1867</div>
+      <div class="incident-name">鵺ヶ原事変（ぬえがはらじへん）</div>
+      <span class="incident-badge" style="color:var(--red);">最高機密</span>
+    </div>
+    <div class="incident-body">近代初の大規模怪異事件。旧市街地一帯に特級相当の怪異が出現。封印処理で対処。鵺ヶ原の地名は現在の地図に存在しない。魔法安全基準制定のきっかけになった重要事変。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1931</div>
+      <div class="incident-name">白鴉事件（しろからすじけん）</div>
+    </div>
+    <div class="incident-body">大都市の地下工事中に封印されていた古い怪異の核が偶発的に破損。一級甲種相当の怪異が解放された。公式発表はガス管爆発事故。地下開発における怪異リスク評価が義務化されるきっかけになった。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1947</div>
+      <div class="incident-name">終戦後怪異爆発期</div>
+    </div>
+    <div class="incident-body">戦争による大規模な死と恐怖・悲嘆が爆発的に拡散した時期。各地で新旧の怪異が同時多発的に発生。現在も循環型として繰り返し出現するものが複数ある。三段階討伐プロセスの原型が生まれた。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1985</div>
+      <div class="incident-name">御霊崩し事件（みたまくずしじけん）</div>
+    </div>
+    <div class="incident-body">長年にわたって地域の守り神として信仰されてきた神社の御神体が再開発による取り壊しを機に怪異化した事件。神が怪異に転換した事例として語られている。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">1996</div>
+      <div class="incident-name">深夜廻り怪異の初出記録</div>
+    </div>
+    <div class="incident-body">インターネット上で広まった都市伝説から発生した最初の記録的な新型怪異。インターネット発生源怪異専用の調査・解明プロセスを策定するきっかけになった。現在も循環型として断続的に出現。信念密度は二級相当まで成長している。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2013</div>
+      <div class="incident-name">霧島事案（きりしまじあん）</div>
+    </div>
+    <div class="incident-body">傭兵集団が公的機関より先に大規模怪異を独自討伐した事案。管轄争いが表面化した最初の大規模事案。暫定的な規制フレームワークが策定されたが実効性は低い。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2023</div>
+      <div class="incident-name">素養持ち子供の連続失踪事件</div>
+      <span class="incident-badge" style="color:var(--red);">？未解決</span>
+    </div>
+    <div class="incident-body">素養検査直後の子供が相次いで失踪した事件。謎の組織との関連が疑われているが証拠は不明だ。素養持ちの子供を狙った何者かが社会に潜んでいるという認識が討伐者コミュニティに広まるきっかけになった。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2028</div>
+      <div class="incident-name">第一次怪異兵器使用事案</div>
+      <span class="incident-badge" style="color:var(--red);">？真相不明</span>
+    </div>
+    <div class="incident-body">謎の組織が都市部で怪異を意図的に放流したとされる事案。三級乙種の怪異が繁華街に放たれ複数の被害者が出た。怪異を意図的に兵器として使う組織の存在を討伐者コミュニティに強く印象づけた事案だ。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2034</div>
+      <div class="incident-name">白銀の廃線事件（しろがねのはいせんじけん）</div>
+      <span class="incident-badge" style="color:var(--gold);">★ 重要</span>
+    </div>
+    <div class="incident-body">廃線全体に特級丙種の定着型怪異が発生。公的機関・傭兵・無所属が初めて本格的に協力して封印処理を行った事例。封印は現在も維持されており定期的な状態確認が続いている。この事件が現在の無所属コミュニティの核を作った。</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-header">
+      <div class="incident-year">2037</div>
+      <div class="incident-name">機動兵器と怪異の相互作用事案</div>
+    </div>
+    <div class="incident-body">大型の戦闘用搭乗型が三級甲種の怪異と長時間交戦した結果機体の魔導具システムが暴走した最初の記録事例。新たな怪異を生みながら都市部を移動するという事態が発生した。機動兵器が怪異と化する可能性を示した事案として語り継がれている。</div>
+  </div>
+</section>
+
+<!-- ══════════ 16 生存原則 ══════════ -->
+<section class="page-section" id="survival" style="border-bottom:none;">
+  <div class="section-eyebrow">16 — Survival Principles</div>
+  <h2 class="section-title">この世界で生き延びるための原則</h2>
+
+  <ul class="rule-list">
+    <li><span class="rule-bullet">◆ 01</span>調査なしの討伐は自殺行為だ</li>
+    <li><span class="rule-bullet">◆ 02</span>解明なしの討伐は自殺行為だ</li>
+    <li><span class="rule-bullet">◆ 03</span>ルールを破れば破るほど逃げられなくなる</li>
+    <li><span class="rule-bullet">◆ 04</span>強さだけで解決できる怪異は存在しない</li>
+    <li><span class="rule-bullet">◆ 05</span>知識が命を救う。無知が人を殺す</li>
+    <li><span class="rule-bullet">◆ 06</span>話しても誰も信じてくれない。それがこの仕事だ</li>
+  </ul>
+
+  <div class="blockquote">
+    怪異と神の関係について、討伐者の間ではこういう話がある。<br>
+    「恐れられているか信仰されているかの違いだけだ。」<br>
+    <span style="font-size:0.8rem;color:var(--text-mute);">— 真偽は不明だ。ただし神社の御神体が怪異化したという記録が残っていることは事実だ。</span>
+  </div>
+
+  <div style="text-align:center;padding:4rem 0 2rem;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--text-mute);line-height:2.5;">
+    <div style="font-size:8px;color:var(--text-mute);letter-spacing:0.3em;margin-bottom:0.2rem;font-family:'Shippori Mincho B1',serif;">電脳怪異譚</div>
+    <div style="font-size:1.1rem;color:var(--gold);letter-spacing:0.2em;margin-bottom:1rem;font-family:'IBM Plex Mono',monospace;">KAI-I//KILL</div>
+    <div>PLAYER HANDBOOK — ver.1.0</div>
+    <div style="color:var(--border);">────────────────────────</div>
+    <div>このバイブルに書かれていないことが、この世界にはまだある。</div>
+    <div style="margin-top:0.5rem;font-size:8px;opacity:0.4;">PLAYER DOCUMENT — AUTHORIZED DISTRIBUTION ONLY</div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Sidebar toggle
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// Tab system
+function switchTab(e, group, id) {
+  document.querySelectorAll('#' + group + ' .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#' + group + ' .tab-content').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Handle tab groups correctly
+function switchTab(e, group, id) {
+  const section = e.target.closest('.page-section');
+  section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Glossary toggle
+function toggleGloss(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+// Glossary search
+function filterGlossary() {
+  const q = document.getElementById('glossarySearch').value.toLowerCase();
+  document.querySelectorAll('.gloss-entry').forEach(entry => {
+    const keywords = entry.getAttribute('data-keywords') || '';
+    const text = (entry.querySelector('.gloss-keyword').textContent + ' ' + keywords).toLowerCase();
+    entry.style.display = q === '' || text.includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('.sec-divider').forEach(div => {
+    div.style.display = '';
+  });
+}
+
+// Active nav link highlight on scroll
+const sections = document.querySelectorAll('.page-section, .hero');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function updateActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 100;
+    if (window.scrollY >= top) current = section.id || '';
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+</script>
+</body>
+</html>
